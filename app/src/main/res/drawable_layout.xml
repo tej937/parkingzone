@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="@drawable/notification_back">
+
+    <ImageView
+        android:layout_width="95dp"
+        android:layout_height="100dp"
+        android:src="@drawable/profile_pic"
+        android:paddingLeft="7dp"
+        android:layout_toEndOf="@+id/registered_email"
+        android:layout_centerVertical="true"
+        />
+
+    <TextView
+        android:id="@+id/registered_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="50dp"
+        android:text="Name: Tejas"
+        android:textColor="@color/Black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/registered_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_centerVertical="true"
+        android:text="Email: tejasbarlota12@gmail.com"
+        android:layout_below="@+id/registered_user"
+        android:textColor="@color/Black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        />
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Park Zone</string>
+    <string name="mail">Email ID</string>
+    <string name="already">Already have an account ?</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="forgot">Enter the email associated with your account.</string>
+    <string name="forgot_button">Get Reset Link</string>
+    <string name="api_key">AIzaSyAGIsVpEc2y_Zd26a60l5vfeyxsXYpjk88</string>
+</resources>
