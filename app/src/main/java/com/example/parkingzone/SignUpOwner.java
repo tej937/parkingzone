@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 
 import javaFiles.NewUser;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpOwner extends AppCompatActivity {
     TextInputLayout email,pass,phone;
     Button register;
     TextView already;
@@ -40,11 +40,10 @@ public class SignUpActivity extends AppCompatActivity {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_up_owner);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         initialise();
@@ -52,7 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
         already.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignUpActivity.this, Selection.class));
+                startActivity(new Intent(SignUpOwner.this, Selection.class));
                 finish();
             }
         });
@@ -60,7 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() !=null){
-                    startActivity(new Intent(SignUpActivity.this,SignUpActivity2.class));
+                    startActivity(new Intent(SignUpOwner.this,SignUpOwner2.class));
                     finish();
                 }
             }
@@ -72,7 +71,7 @@ public class SignUpActivity extends AppCompatActivity {
 //                String passwo = pass.getEditText().getText().toString().trim();
 //                String phon = phone.getEditText().getText().toString().trim();
                 if(!validateEmail(email.getEditText().getText().toString().trim()) | !validatephoneno(phone.getEditText().getText().toString().trim()) | !validatePassword(pass.getEditText().getText().toString().trim()))
-                    Toast.makeText(SignUpActivity.this, "Invalid", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpOwner.this, "Invalid", Toast.LENGTH_SHORT).show();
                 else{
                     email.setError(null);
                     pass.setError(null);
@@ -80,20 +79,19 @@ public class SignUpActivity extends AppCompatActivity {
                     newUser.setMail(email.getEditText().getText().toString().trim());
                     newUser.setPass(pass.getEditText().getText().toString().trim());
                     newUser.setPhone(phone.getEditText().getText().toString().trim());
-
                     mAuth.createUserWithEmailAndPassword(email.getEditText().getText().toString().trim(),pass.getEditText().getText().toString().trim())
-                            .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                            .addOnCompleteListener(SignUpOwner.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(!task.isSuccessful())
-                                        Toast.makeText(SignUpActivity.this, "Email ID already Exist", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(SignUpOwner.this, "Email ID already Exist", Toast.LENGTH_SHORT).show();
                                     else{
                                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                         if (user != null) {
-                                            final DatabaseReference usersRef = ref.child("Parker").child(user.getUid()).child("Parker Details");
+                                            final DatabaseReference usersRef = ref.child("Owner").child(user.getUid()).child("Owner Details");
                                             usersRef.setValue(newUser);
                                         }
-                                        }
+                                    }
                                 }
                             });
                 }

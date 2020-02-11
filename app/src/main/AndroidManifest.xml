@@ -17,9 +17,9 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OwnerHomePage"></activity>
-        <activity android:name=".SignUp_Owner" />
-        <activity android:name=".Login_Owner" />
+        <activity android:name=".SignUpOwner"></activity>
+        <activity android:name=".OwnerHomePage" />
+        <activity android:name=".SignUpOwner2" />
         <activity android:name=".Selection" />
         <activity android:name=".PaymentMethod" />
         <activity android:name=".ParkingLot" />
