@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -23,9 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import javaFiles.NewOwner;
 
 public class SignUpOwner2 extends AppCompatActivity {
-    TextInputLayout parking_name,address,area,stiming,parking_slots,etiming;
+    TextInputLayout parking_name,address,area;
     Spinner slot;
-    TextInputEditText stime,etime;
+    TextView stime,etime;
     ImageView back;
     Button register;
     NewOwner newOwner;
@@ -42,11 +43,11 @@ public class SignUpOwner2 extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignUpOwner2.this,SignUpOwner.class));
+                startActivity(new Intent(SignUpOwner2.this,Selection.class));
                 finish();
             }
         });
-        stiming.setOnClickListener(new View.OnClickListener() {
+        stime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(SignUpOwner2.this, new TimePickerDialog.OnTimeSetListener() {
@@ -58,7 +59,7 @@ public class SignUpOwner2 extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
-        etiming.setOnClickListener(new View.OnClickListener() {
+        etime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(SignUpOwner2.this, new TimePickerDialog.OnTimeSetListener() {
@@ -74,16 +75,12 @@ public class SignUpOwner2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!validateParkName(parking_name.getEditText().getText().toString()) | !validateAddress(address.getEditText().getText().toString())
-                | !validateArea(area.getEditText().getText().toString()) |!validateTime(stime.getText().toString(),etime.getText().toString())
-                | !validateSlots(slot.getSelectedItem().toString().trim()))
+                | !validateArea(area.getEditText().getText().toString()))
                     Toast.makeText(SignUpOwner2.this, "Invalid Details", Toast.LENGTH_SHORT).show();
                 else{
                     parking_name.setError(null);
                     address.setError(null);
                     area.setError(null);
-                    stiming.setError(null);
-                    etiming.setError(null);
-                    parking_slots.setError(null);
                     newOwner.setParking_name(parking_name.getEditText().getText().toString().trim());
                     newOwner.setAddress(address.getEditText().getText().toString().trim());
                     newOwner.setArea(area.getEditText().getText().toString().trim());
@@ -107,17 +104,15 @@ public class SignUpOwner2 extends AppCompatActivity {
         parking_name = (TextInputLayout) findViewById(R.id.lot_name);
         address = (TextInputLayout) findViewById(R.id.address);
         area = (TextInputLayout) findViewById(R.id.area);
-        stiming = (TextInputLayout) findViewById(R.id.stiming);
-        etiming = (TextInputLayout) findViewById(R.id.etiming);
-        parking_slots = (TextInputLayout) findViewById(R.id.slot_layout);
         slot = (Spinner) findViewById(R.id.slots);
-        stime = (TextInputEditText) findViewById(R.id.stime);
-        etime = (TextInputEditText) findViewById(R.id.etime);
+        stime = (TextView) findViewById(R.id.stime);
+        etime = (TextView) findViewById(R.id.etime);
         register = (Button) findViewById(R.id.register);
+        back = (ImageView) findViewById(R.id.back);
         newOwner = new NewOwner();
     }
 
-    public void displayTime(int hourOfDay,int minute,TextInputEditText editText){
+    public void displayTime(int hourOfDay,int minute,TextView editText){
         int hour = hourOfDay;
         int minutes = minute;
         String timeSet = "";
@@ -168,28 +163,6 @@ public class SignUpOwner2 extends AppCompatActivity {
         }
         else {
             area.setError(null);
-            return true;
-        }
-    }
-    private boolean validateTime(String stime,String etime) {
-        if(stime.isEmpty() | etime.isEmpty()){
-            stiming.setError("This Field can't be Empty");
-            etiming.setError("This Field cant be Empty");
-            return false;
-        }
-        else {
-            stiming.setError(null);
-            etiming.setError(null);
-            return true;
-        }
-    }
-    private boolean validateSlots(String slots) {
-        if(slots.isEmpty()){
-            parking_slots.setError("This Field can't be Empty");
-            return false;
-        }
-        else {
-            parking_slots.setError(null);
             return true;
         }
     }

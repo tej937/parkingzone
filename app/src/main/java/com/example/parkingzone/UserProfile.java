@@ -241,7 +241,6 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
         newUser = new NewUser();
         newCar = new NewCar();
     }
-
     private boolean validatePassword(String password) {
         if(password.isEmpty()) {
             password_edit.setError("This Field can't be Empty");
@@ -302,7 +301,6 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
             return true;
         }
     }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();

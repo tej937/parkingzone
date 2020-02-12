@@ -98,7 +98,6 @@ public class SignUpOwner extends AppCompatActivity {
             }
         });
     }
-
     private void initialise() {
         register = (Button) findViewById(R.id.submit);
         email = (TextInputLayout) findViewById(R.id.mail_id);
