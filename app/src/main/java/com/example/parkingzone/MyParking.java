@@ -1,6 +1,7 @@
 package com.example.parkingzone;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -37,6 +38,10 @@ public class MyParking extends AppCompatActivity implements NavigationView.OnNav
         headerView = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
         myDialog = new Dialog(this);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.Black)));
+
 
         signout = (Button) findViewById(R.id.signout);
         signout.setOnClickListener(new View.OnClickListener() {

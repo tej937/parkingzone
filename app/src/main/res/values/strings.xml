@@ -6,6 +6,10 @@
     <string name="close">Close</string>
     <string name="forgot">Enter the email associated with your account.</string>
     <string name="forgot_button">Get Reset Link</string>
+    <string name= "news1"><u><b>Honk More, Wait More:</b> \nHow Mumbai Police Is \nPunishing Reckless \nHonkers</u></string>
+    <string name= "news2"><u>From Today, Pay Up \n To Rs 23,000 For \nIllegal Parking \nIn Mumbai</u></string>
+    <string name= "news3"><u>Mumbai Most Traffic \nCongested City In \nThe World,Delhi \nAt Fourth</u></string>
+    <string name="news4"><u>Read More</u></string>
     <string name="api_key">AIzaSyAGIsVpEc2y_Zd26a60l5vfeyxsXYpjk88</string>
     <string-array name="number">
         <item>1</item>

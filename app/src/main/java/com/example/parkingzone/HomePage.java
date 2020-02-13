@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -31,13 +32,14 @@ import com.google.firebase.database.ValueEventListener;
 
 public class HomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
-    Button signout,update_profile;
+    Button update_profile;
     DrawerLayout mDraw;
     NavigationView navigationView;
     ActionBarDrawerToggle mToggle;
     Dialog myDialog;
     View headerView;
     RelativeLayout main_layout,update_layout;
+    RelativeLayout news1,news2,news3,news4;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
@@ -50,24 +52,47 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         initialise();
         checkDetails();
 
-        signout.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(HomePage.this,Selection.class);
-            int flag = 0;
-            Bundle bundle = new Bundle();
-            bundle.putString("flag", String.valueOf(flag));
-            intent.putExtras(bundle);
-            startActivity(intent);
-            finish();
-        }
-    });
     update_profile.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             startActivity(new Intent(HomePage.this,SignUpActivity2.class));
             finish();
+        }
+    });
+    news1.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String url = "https://www.ndtv.com/offbeat/honk-more-wait-more-how-mumbai-police-is-punishing-reckless-honkers-2172723";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        }
+    });
+    news2.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String url = "https://www.ndtv.com/mumbai-news/bmc-new-rules-from-today-pay-up-to-rs-23-000-for-illegal-parking-in-mumbai-2065619";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        }
+    });
+    news3.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String url = "https://www.ndtv.com/india-news/mumbai-most-traffic-congested-city-in-the-world-delhi-at-fourth-2048666";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        }
+    });
+    news4.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String url = "https://www.ndtv.com/topic/mumbai-traffic";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
         }
     });
     }
@@ -85,7 +110,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     update_layout.setVisibility(View.VISIBLE);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -104,10 +128,13 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         navigationView.setNavigationItemSelectedListener(this);
         myDialog = new Dialog(this);
 
-        signout = (Button) findViewById(R.id.signout);
         main_layout = (RelativeLayout) findViewById(R.id.main_layout);
         update_layout = (RelativeLayout) findViewById(R.id.update_layout);
         update_profile = (Button) findViewById(R.id.update);
+        news1 = (RelativeLayout) findViewById(R.id.news1);
+        news2 = (RelativeLayout) findViewById(R.id.news2);
+        news3 = (RelativeLayout) findViewById(R.id.news3);
+        news4 = (RelativeLayout) findViewById(R.id.news4);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.Black)));

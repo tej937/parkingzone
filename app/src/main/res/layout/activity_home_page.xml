@@ -7,109 +7,230 @@
     android:id="@+id/drawer"
     android:background="@color/Black"
     tools:context=".HomePage">
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-<!--        Main Home Page-->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/main_layout">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/location"
-            android:id="@+id/location"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="75dp"
-            />
-            <ImageView
-                android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <!--        Main Home Page-->
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/location_car"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="85dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Let's find you a spot"
-            android:textSize="25sp"
-            android:textColor="@color/White"
-            android:textStyle="bold"
-            android:id="@+id/text2"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/location"/>
-        <Button
-            android:layout_width="155dp"
-            android:layout_height="50dp"
-            android:background="@drawable/roundbutton"
-            android:backgroundTint="#FF3366"
-            android:textColor="@color/White"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="50dp"
-            android:text="Sign Out"
-            android:id="@+id/signout"
-            />
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:backgroundTint="@color/White"
-            android:background="@drawable/roundbutton"
-            android:layout_below="@id/text2"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"
-            android:drawableStart="@drawable/search"
-            android:padding="10dp"
-            android:id="@+id/search"
-            android:hint="  Address, Place, City or Venue"/>
+                android:id="@+id/main_layout">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/location"
+                    android:id="@+id/location"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/location_car"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="35dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Let's find you a spot"
+                    android:textSize="22sp"
+                    android:textColor="@color/White"
+                    android:textStyle="bold"
+                    android:id="@+id/text2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/location"/>
 
-            <Button
+                <EditText
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:backgroundTint="@color/White"
+                    android:background="@drawable/roundbutton"
+                    android:layout_below="@id/text2"
+                    android:layout_marginTop="20dp"
+                    android:layout_centerHorizontal="true"
+                    android:drawableStart="@drawable/search"
+                    android:padding="10dp"
+                    android:id="@+id/search"
+                    android:hint="  Address, Place, City or Venue"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  Pay and Park near me"
+                    android:id="@+id/pay_park"
+                    android:layout_below="@id/search"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:padding="10dp"
+                    android:textSize="17sp"
+                    android:textColor="#ff3366"
+                    android:background="@drawable/roundbutton"
+                    android:drawableStart="@drawable/telegram"/>
+            </RelativeLayout>
+            <!--        Update Profile Layout-->
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="  Pay and Park near me"
-                android:id="@+id/pay_park"
-                android:layout_below="@id/search"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:padding="15dp"
+                android:visibility="gone"
+                android:id="@+id/update_layout">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vehicle details not uploaded \nPlease Update the profile to continue"
+                    android:textSize="25sp"
+                    android:textColor="#ff3366"
+                    android:textAlignment="center"
+                    android:id="@+id/text"
+                    android:layout_marginTop="150dp"
+                    />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/roundbutton"
+                    android:backgroundTint="#FF3366"
+                    android:textColor="@color/White"
+                    android:text="Update Profile"
+                    android:textSize="18sp"
+                    android:padding="15dp"
+                    android:id="@+id/update"
+                    />
+
+            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Updates"
                 android:textColor="#ff3366"
-                android:background="@drawable/roundbutton"
-                android:drawableStart="@drawable/telegram"/>
-        </RelativeLayout>
-<!--        Update Profile Layout-->
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:id="@+id/update_layout">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Vehicle details not uploaded \nPlease Update the profile to continue"
-            android:textSize="25sp"
-            android:textColor="#ff3366"
-            android:textAlignment="center"
-            android:id="@+id/text"
-            android:layout_marginTop="150dp"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/roundbutton"
-            android:backgroundTint="#FF3366"
-            android:textColor="@color/White"
-            android:text="Update Profile"
-            android:textSize="18sp"
-            android:padding="15dp"
-            android:id="@+id/update"
-            />
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_below="@id/main_layout"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:id="@+id/text3"/>
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text3"
+                android:id="@+id/news_scroll"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <!--    News1 Layout-->
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/news1"
+                        >
+                        <ImageView
+                            android:layout_marginTop="15dp"
+                            android:layout_marginStart="25dp"
+                            android:layout_width="150dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/news1"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/news1"
+                            android:textColor="#ff3366"
+                            android:textSize="15sp"
+                            android:layout_marginTop="135dp"
+                            android:layout_marginStart="20dp"
+                            />
+                    </RelativeLayout>
+                    <!--    News2 Layout-->
+                    <RelativeLayout
+                        android:id="@+id/news2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp">
 
-    </RelativeLayout>
-    </RelativeLayout>
+                        <ImageView
+                            android:layout_marginTop="15dp"
+                            android:layout_width="150dp"
+                            android:layout_height="100dp"
+                            android:layout_marginStart="25dp"
+                            android:src="@drawable/news2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="135dp"
+                            android:text="@string/news2"
+                            android:textColor="#ff3366"
+                            android:textSize="15sp"
+
+                            />
+                    </RelativeLayout>
+                    <!--    News3 Layout-->
+                    <RelativeLayout
+                        android:id="@+id/news3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp">
+
+                        <ImageView
+                            android:layout_marginTop="15dp"
+                            android:layout_width="150dp"
+                            android:layout_height="100dp"
+                            android:layout_marginStart="25dp"
+                            android:src="@drawable/news3" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="135dp"
+                            android:text="@string/news3"
+                            android:textColor="#ff3366"
+                            android:textSize="15sp"
+                            />
+                    </RelativeLayout>
+<!--                    Read More Layout-->
+                    <RelativeLayout
+                        android:id="@+id/news4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="25dp">
+
+                        <TextView
+                            android:padding="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/news4"
+                            android:gravity="center"
+                            android:textColor="#ff3366"
+                            android:textSize="15sp"
+                            />
+                    </RelativeLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parking Slots"
+                android:textColor="#ff3366"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_below="@id/news_scroll"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                />
+
+        </RelativeLayout>
+    </ScrollView>
     <com.google.android.material.navigation.NavigationView
         app:headerLayout="@layout/drawable_layout"
         android:id="@+id/navigation"

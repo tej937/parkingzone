@@ -53,12 +53,11 @@ public class OwnerHomePage extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     private void checkDetails() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference check_details = ref.child("Parker").child(user.getUid()).child("Vehicle Details");
+        DatabaseReference check_details = ref.child("Owner").child(user.getUid()).child("Parking Details");
         check_details.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
