@@ -15,10 +15,6 @@
             android:id="@+id/setting"
             android:icon="@drawable/setting_passenger"
             android:title="Settings" />
-        <item
-            android:id="@+id/parking_lot"
-            android:icon="@drawable/car"
-            android:title="View Parking Slot" />
         <item android:id="@+id/payment"
             android:icon="@drawable/payment"
             android:title="Payment Method"/>

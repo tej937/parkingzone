@@ -66,11 +66,6 @@ public class PaymentMethod extends AppCompatActivity implements NavigationView.O
             startActivity(intent);
             finish();
             return true;
-        } else if (id == R.id.parking_lot) {
-            Intent intent = new Intent(PaymentMethod.this, ParkingLot.class);
-            startActivity(intent);
-            finish();
-            return true;
         } else if (id == R.id.setting) {
             Intent intent = new Intent(PaymentMethod.this, SettingPage.class);
             startActivity(intent);

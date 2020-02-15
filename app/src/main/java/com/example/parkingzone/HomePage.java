@@ -39,7 +39,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     Dialog myDialog;
     View headerView;
     RelativeLayout main_layout,update_layout;
-    RelativeLayout news1,news2,news3,news4;
+    RelativeLayout news1,news2,news3,news4,first_attempt;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
@@ -95,6 +95,13 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             startActivity(i);
         }
     });
+    first_attempt.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(HomePage.this,ParkingLot.class));
+            finish();
+        }
+    });
     }
 
     private void checkDetails() {
@@ -135,6 +142,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         news2 = (RelativeLayout) findViewById(R.id.news2);
         news3 = (RelativeLayout) findViewById(R.id.news3);
         news4 = (RelativeLayout) findViewById(R.id.news4);
+        first_attempt = (RelativeLayout) findViewById(R.id.first_attempt);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.Black)));
@@ -146,11 +154,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         int id = menuItem.getItemId();
         if (id == R.id.parking) {
             Intent intent = new Intent(HomePage.this, MyParking.class);
-            startActivity(intent);
-            finish();
-            return true;
-        } else if (id == R.id.parking_lot) {
-            Intent intent = new Intent(HomePage.this, ParkingLot.class);
             startActivity(intent);
             finish();
             return true;

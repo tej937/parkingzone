@@ -84,11 +84,6 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
             startActivity(intent);
             finish();
             return true;
-        } else if (id == R.id.parking_lot) {
-            Intent intent = new Intent(SettingPage.this, ParkingLot.class);
-            startActivity(intent);
-            finish();
-            return true;
         } else if (id == R.id.setting) {
             Intent intent = new Intent(SettingPage.this, SettingPage.class);
             startActivity(intent);

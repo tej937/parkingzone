@@ -63,11 +63,6 @@ public class MyParking extends AppCompatActivity implements NavigationView.OnNav
             startActivity(intent);
             finish();
             return true;
-        } else if (id == R.id.parking_lot) {
-            Intent intent = new Intent(MyParking.this, ParkingLot.class);
-            startActivity(intent);
-            finish();
-            return true;
         } else if (id == R.id.setting) {
             Intent intent = new Intent(MyParking.this, SettingPage.class);
             startActivity(intent);

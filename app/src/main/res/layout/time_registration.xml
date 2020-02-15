@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/popup_round"
+    android:layout_gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time Selection"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="#ff3366"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:id="@+id/text"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text"
+        android:id="@+id/time_layout"
+        android:layout_centerHorizontal="true">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Time:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/White"
+        android:padding="15dp"
+        android:id="@+id/start_text"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End Time:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/White"
+        android:padding="15dp"
+        android:layout_below="@+id/start_text"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00 : 00"
+        android:layout_marginStart="40dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_toEndOf="@id/start_text"
+        android:textColor="@color/White"
+        android:padding="15dp"
+        android:id="@+id/start_time"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00 : 00"
+        android:textSize="20sp"
+        android:layout_marginStart="40dp"
+        android:layout_toEndOf="@id/start_text"
+        android:textStyle="bold"
+        android:id="@+id/end_time"
+        android:textColor="@color/White"
+        android:padding="15dp"
+        android:layout_below="@+id/start_text"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Time: "
+            android:textColor="@color/White"
+            android:textSize="20sp"
+            android:padding="15dp"
+            android:layout_below="@id/end_time"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00 : 00"
+            android:id="@+id/difference"
+            android:layout_toEndOf="@id/start_text"
+            android:layout_below="@id/end_time"
+            android:layout_marginStart="40dp"
+            android:textColor="@color/White"
+            android:textSize="20sp"
+            android:padding="15dp"/>
+    </RelativeLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/roundbutton"
+        android:backgroundTint="#ff3366"
+        android:layout_below="@id/time_layout"
+        android:layout_centerHorizontal="true"
+        android:text="Proceed to Checkout"
+        android:textAllCaps="false"
+        android:padding="15dp"
+        android:textColor="@color/White"
+        android:textSize="18sp"
+        android:id="@+id/checkout"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
+</RelativeLayout>
