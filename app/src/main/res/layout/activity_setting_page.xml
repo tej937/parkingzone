@@ -13,7 +13,8 @@
         android:background="@color/Black">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
+            android:padding="30dp"
             android:id="@+id/layout2">
         <ImageView
             android:layout_width="95dp"
@@ -23,38 +24,44 @@
             android:layout_marginStart="45dp"
             android:id="@+id/profile_pic"
             />
-        <TextView
-            android:layout_width="150dp"
-            android:gravity="center_horizontal"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/profile_pic"
-            android:layout_marginTop="60dp"
-            android:layout_marginStart="20dp"
-            android:text="UserName"
-            android:textColor="@color/White"
-            android:textSize="23sp"
-            android:id="@+id/username"/>
 
-        <TextView
-            android:layout_width="150dp"
-            android:gravity="center_horizontal"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/profile_pic"
-            android:layout_below="@id/username"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="20dp"
-            android:text="9876543210"
-            android:textColor="@color/White"
-            android:textSize="20sp"
-            android:id="@+id/phone_number"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back"
-            android:rotation="180"
-            android:id="@+id/back"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/username"/>
+            <RelativeLayout
+                android:id="@+id/profile_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/profile_pic">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:text="UserName"
+                    android:padding="10dp"
+                    android:textColor="@color/White"
+                    android:textSize="23sp"
+                    android:id="@+id/username"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/username"
+                    android:text="9876543210"
+                    android:padding="10dp"
+                    android:textColor="@color/White"
+                    android:textSize="20sp"
+                    android:id="@+id/phone_number"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/back"
+                    android:rotation="180"
+                    android:padding="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/username"/>
+            </RelativeLayout>
         </RelativeLayout>
         <TextView
             android:layout_width="wrap_content"
@@ -155,26 +162,6 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="80dp"
             android:layout_below="@id/question_text"
-            android:layout_marginTop="15dp"/>
-        <TextView
-            android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_below="@id/feedback"
-            android:layout_marginStart="20dp"
-            android:id="@+id/tnc"
-            android:text="FAQ"
-            android:textColor="#ff3366"
-            android:textSize="23sp"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back"
-            android:rotation="180"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="80dp"
-            android:layout_below="@id/feedback"
             android:layout_marginTop="15dp"/>
     </RelativeLayout>
     <com.google.android.material.navigation.NavigationView

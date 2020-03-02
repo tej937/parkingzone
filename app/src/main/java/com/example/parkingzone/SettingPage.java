@@ -1,12 +1,5 @@
 package com.example.parkingzone;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.OneShotPreDrawListener;
-import androidx.core.widget.ImageViewCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,15 +7,30 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
+import javaFiles.NewCar;
+import javaFiles.NewUser;
 
 public class SettingPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout mDraw;
@@ -31,36 +39,44 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
     Dialog myDialog;
     View headerView;
 
+    RelativeLayout profilePageOpener;
     TextView username,phone_number;
-    ImageView profile_button;
+
+    NewUser newUser;
+    NewCar newCar;
+    SwitchCompat darkMode;
+
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_page);
-        initialise();
 
-        username.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(SettingPage.this,UserProfile.class));
-                finish();
-            }
-        });
-        phone_number.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(SettingPage.this,UserProfile.class));
-                finish();
-            }
-        });
-        profile_button.setOnClickListener(new View.OnClickListener() {
+        initialise();
+        retrieveData();
+        retrieveCarData();
+        profilePageOpener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SettingPage.this, UserProfile.class));
+                finish();
             }
         });
-    }
 
+        darkMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(SettingPage.this, "Light Mode Upadate coming soon", Toast.LENGTH_SHORT).show();
+                    darkMode.setChecked(false);
+                }
+            }
+        });
+
+    }
     private void initialise() {
         mDraw = (DrawerLayout)findViewById(R.id.drawer);
         mToggle = new ActionBarDrawerToggle(this, mDraw,R.string.open,R.string.close);
@@ -71,9 +87,71 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
         headerView = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
         myDialog = new Dialog(this);
+
         username = (TextView) findViewById(R.id.username);
         phone_number = (TextView) findViewById(R.id.phone_number);
-        profile_button = (ImageView) findViewById(R.id.back);
+        profilePageOpener = (RelativeLayout) findViewById(R.id.profile_page);
+        newUser = new NewUser();
+        newCar = new NewCar();
+        darkMode = findViewById(R.id.drive);
+
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.Black)));
+        actionBar.setTitle("Setting");
+    }
+
+    private void retrieveData() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            final DatabaseReference usersRef = ref.child("Parker").child(user.getUid()).child("Parker Details");
+            usersRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        getDataFromFirebase(dataSnapshot);
+                    } else {
+                        Toast.makeText(SettingPage.this, "Chutiya kut gaya ", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(SettingPage.this, "U have failed this City " + databaseError, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void retrieveCarData() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            final DatabaseReference usersRef = ref.child("Parker").child(user.getUid()).child("Vehicle Details");
+            usersRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists())
+                        getCarDataFromFirebase(dataSnapshot);
+                    else
+                        Toast.makeText(SettingPage.this, "Please Register your Car ", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(SettingPage.this, "U have failed this City " + databaseError, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void getCarDataFromFirebase(DataSnapshot dataSnapshot) {
+        newCar.setName((String) dataSnapshot.child("name").getValue());
+        username.setText(newCar.getName());
+    }
+
+    private void getDataFromFirebase(DataSnapshot dataSnapshot) {
+        newUser.setPhone((String) dataSnapshot.child("phone").getValue());
+        phone_number.setText(newUser.getPhone());
     }
 
     @Override

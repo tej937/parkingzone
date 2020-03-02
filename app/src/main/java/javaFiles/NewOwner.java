@@ -1,7 +1,34 @@
 package javaFiles;
 
 public class NewOwner {
-    String parking_name,area,address,stiming,etiming,slots;
+    String parking_name;
+    String area;
+    String address;
+    String stiming;
+    String etiming;
+    String slots;
+    String layout1;
+
+    public NewOwner(String parking_name, String area, String address, String stiming, String etiming, String slots, String layout1) {
+        this.parking_name = parking_name;
+        this.area = area;
+        this.address = address;
+        this.stiming = stiming;
+        this.etiming = etiming;
+        this.slots = slots;
+        this.layout1 = layout1;
+    }
+
+    public NewOwner() {
+    }
+
+    public String getLayout1() {
+        return layout1;
+    }
+
+    public void setLayout1(String layout1) {
+        this.layout1 = layout1;
+    }
 
     public String getParking_name() {
         return parking_name;

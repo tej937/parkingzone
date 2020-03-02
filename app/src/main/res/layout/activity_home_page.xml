@@ -102,6 +102,7 @@
                     />
 
             </RelativeLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -120,6 +121,7 @@
                 android:id="@+id/news_scroll"
                 >
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -230,46 +232,65 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="10dp"
                 />
+
+            <TextView
+                android:id="@+id/no_booking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text4"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:text="No Parking Available"
+                android:textAllCaps="true"
+                android:textColor="#ff3366"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text4"
+                android:id="@+id/parking_layout"
                 >
-                <LinearLayout
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/first_attempt">
-                        <ImageView
-                            android:layout_marginTop="15dp"
-                            android:layout_marginStart="25dp"
-                            android:layout_width="150dp"
-                            android:layout_height="100dp"
-                            android:src="@drawable/news1"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/news1"
-                            android:textColor="#ff3366"
-                            android:textSize="15sp"
-                            android:layout_marginTop="135dp"
-                            android:layout_marginStart="20dp"
-                            />
+                    android:layout_height="wrap_content">
 
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
 
-                    </RelativeLayout>
-
-                </LinearLayout>
+                </RelativeLayout>
             </HorizontalScrollView>
-
+            <!--                <LinearLayout-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:orientation="horizontal">-->
+            <!--                    <RelativeLayout-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:id="@+id/first_attempt">-->
+            <!--&lt;!&ndash;                        <ImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;                            android:layout_marginTop="15dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;                            android:layout_marginStart="25dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;                            android:layout_width="150dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;                            android:layout_height="100dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;                            android:src="@drawable/news1"&ndash;&gt;-->
+            <!--&lt;!&ndash;                            />&ndash;&gt;-->
+            <!--&lt;!&ndash;                        <TextView&ndash;&gt;-->
+            <!--&lt;!&ndash;                            android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;                            android:text="@string/news1"&ndash;&gt;-->
+            <!--&lt;!&ndash;                            android:textColor="#ff3366"&ndash;&gt;-->
+            <!--&lt;!&ndash;                            android:textSize="15sp"&ndash;&gt;-->
+            <!--&lt;!&ndash;                            android:layout_marginTop="135dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;                            android:layout_marginStart="20dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;                            />&ndash;&gt;-->
+            <!--                    </RelativeLayout>-->
+            <!--                </LinearLayout>-->
         </RelativeLayout>
     </ScrollView>
     <com.google.android.material.navigation.NavigationView

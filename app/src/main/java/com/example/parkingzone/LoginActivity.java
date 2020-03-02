@@ -1,9 +1,5 @@
 package com.example.parkingzone;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -16,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         flag = Integer.parseInt(bundle.getString("flag"));
-        Toast.makeText(this, "Flag Value "+flag, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Flag Value "+flag, Toast.LENGTH_SHORT).show();
         initialise();
         back.setOnClickListener(new View.OnClickListener() {
             @Override

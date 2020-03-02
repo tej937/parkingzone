@@ -1,26 +1,28 @@
 package com.example.parkingzone;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Binder;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.parkingzone.Adapters.Owner_Adapters;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,8 +32,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class HomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
-{
+import java.util.ArrayList;
+
+import javaFiles.NewOwner;
+
+public class HomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     Button update_profile;
     DrawerLayout mDraw;
     NavigationView navigationView;
@@ -39,11 +44,16 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     Dialog myDialog;
     View headerView;
     RelativeLayout main_layout,update_layout;
-    RelativeLayout news1,news2,news3,news4,first_attempt;
+    HorizontalScrollView news_layout, parking_layout;
+    RelativeLayout news1, news2, news3, news4;
+    TextView text3, text4;
 
+    RecyclerView recyclerView;
+    TextView textView;
+    ArrayList<NewOwner> list;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
-
+    Owner_Adapters owner_adapters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +61,30 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         setContentView(R.layout.activity_home_page);
         initialise();
         checkDetails();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            final DatabaseReference reference = ref.child("OwnerInfo");
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                            NewOwner newOwner = dataSnapshot1.getValue(NewOwner.class);
+                            list.add(newOwner);
+                        }
+                        owner_adapters = new Owner_Adapters(HomePage.this, list);
+                        recyclerView.setAdapter(owner_adapters);
+                    } else {
+                        textView.setVisibility(View.VISIBLE);
+                        Toast.makeText(HomePage.this, "Ooops Sorry !!!!!!!!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+        }
 
     update_profile.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -95,13 +129,13 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             startActivity(i);
         }
     });
-    first_attempt.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            startActivity(new Intent(HomePage.this,ParkingLot.class));
-            finish();
-        }
-    });
+//    first_attempt.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            startActivity(new Intent(HomePage.this,ParkingLot.class));
+//            finish();
+//        }
+//    });
     }
 
     private void checkDetails() {
@@ -114,6 +148,10 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     Toast.makeText(HomePage.this, "All required data uploaded", Toast.LENGTH_SHORT).show();
                 else{
                     main_layout.setVisibility(View.GONE);
+                    parking_layout.setVisibility(View.GONE);
+                    news_layout.setVisibility(View.GONE);
+                    text3.setVisibility(View.GONE);
+                    text4.setVisibility(View.GONE);
                     update_layout.setVisibility(View.VISIBLE);
                 }
             }
@@ -142,7 +180,19 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         news2 = (RelativeLayout) findViewById(R.id.news2);
         news3 = (RelativeLayout) findViewById(R.id.news3);
         news4 = (RelativeLayout) findViewById(R.id.news4);
-        first_attempt = (RelativeLayout) findViewById(R.id.first_attempt);
+        news_layout = findViewById(R.id.news_scroll);
+        parking_layout = findViewById(R.id.parking_layout);
+        text3 = findViewById(R.id.text3);
+        text4 = findViewById(R.id.text4);
+
+        ref.keepSynced(true);
+        recyclerView = findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+        list = new ArrayList<NewOwner>();
+        textView = findViewById(R.id.no_booking);
+
+        //first_attempt = (RelativeLayout) findViewById(R.id.first_attempt);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.Black)));

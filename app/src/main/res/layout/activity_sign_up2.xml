@@ -20,11 +20,11 @@
         android:layout_marginTop="25dp"
         android:id="@+id/details"/>
 
-        <!--Name-->
+        <!--User Name-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:text="User Name"
             android:textSize="25sp"
             android:textColor="@color/White"
             android:layout_marginTop="45dp"
@@ -32,22 +32,49 @@
             android:layout_marginStart="20dp"
             />
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="230dp"
-            android:layout_height="47dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
             android:layout_below="@+id/details"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="40dp"
             app:errorEnabled="true"
             android:id="@+id/name"
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="230dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:backgroundTint="#ff3366"
                 android:inputType="textPersonName"
                 android:paddingStart="10dp"
+                android:textColor="@color/White" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Car Name-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Car Name"
+            android:textColor="@color/White"
+            android:textSize="25sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/car_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#ff3366"
+                android:inputType="textPersonName"
                 android:textColor="@color/White" />
         </com.google.android.material.textfield.TextInputLayout>
         <!--License No.-->
@@ -57,18 +84,28 @@
             android:text="License Plate"
             android:textSize="25sp"
             android:textColor="@color/White"
-            android:layout_marginTop="30dp"
-            android:layout_below="@id/name"
+            android:layout_below="@id/car_name"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/car_name"
+            android:layout_marginTop="40dp"
+            android:text="example:\nMH 12 DE 1433"
+            android:textColor="@color/White"
+            android:textSize="17sp"
             android:layout_marginStart="20dp"/>
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="230dp"
-            android:layout_height="47dp"
-            android:layout_below="@+id/name"
-            android:layout_marginStart="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/car_name"
+            android:layout_marginStart="40dp"
             android:layout_marginEnd="10dp"
             android:layout_alignParentEnd="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="5dp"
             app:errorEnabled="true"
             android:id="@+id/lice_no"
             >
@@ -88,7 +125,7 @@
             android:text="Vehicle Type"
             android:textSize="25sp"
             android:textColor="@color/White"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_below="@id/lice_no"
             android:layout_marginStart="20dp"
             android:id="@+id/veh_type"/>
@@ -97,6 +134,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/lice_no"
+            android:layout_marginStart="20dp"
             android:id="@+id/type"
             android:layout_toEndOf="@id/veh_type">
         <RadioButton
@@ -109,7 +147,7 @@
                 android:textColor="@color/White"
                 android:textSize="20sp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="35dp"
+            android:layout_marginTop="20dp"
                 />
         <RadioButton
                 android:id="@+id/radioCar"
@@ -120,7 +158,7 @@
                 android:text="Car"
                 android:textColor="@color/White"
                 android:textSize="20sp"
-                android:layout_marginTop="35dp"
+            android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"/>
         </RadioGroup>
         <!--License-->

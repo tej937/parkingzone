@@ -1,18 +1,9 @@
 package com.example.parkingzone;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,24 +16,36 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javaFiles.NewCar;
 
 public class SignUpActivity2 extends AppCompatActivity {
-    TextInputLayout userName, plateNo;
+
+    String row = "/UUUUUU";
+    // String spaces = "/";
+    String complete_layout = "";
+
+    TextInputLayout userName, plateNo, carName;
     RadioGroup type;
     ImageView back;
     ImageButton photo;
@@ -54,6 +57,7 @@ public class SignUpActivity2 extends AppCompatActivity {
     NewCar newCar;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
+    private long noUser = 0;
 
 
     @Override
@@ -61,6 +65,7 @@ public class SignUpActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up2);
         initialise();
+        getUserNo();
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         back.setOnClickListener(new View.OnClickListener() {
@@ -93,13 +98,15 @@ public class SignUpActivity2 extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!validateName(userName.getEditText().getText().toString().trim()) | !validatePlate(plateNo.getEditText().getText().toString().trim()))
+                if (!validateName(userName.getEditText().getText().toString().trim()) | !validatePlate(plateNo.getEditText().getText().toString().trim()) | !validateCarName(carName.getEditText().getText().toString().trim()))
                     Toast.makeText(SignUpActivity2.this, "Car Not Registered", Toast.LENGTH_SHORT).show();
                 else{
                     userName.setError(null);
                     plateNo.setError(null);
+                    carName.setError(null);
                     newCar.setName(userName.getEditText().getText().toString().trim());
                     newCar.setPlate(plateNo.getEditText().getText().toString().trim());
+                    newCar.setCarType(carName.getEditText().getText().toString().trim());
                     int selectedId = type.getCheckedRadioButtonId();
                     RadioButton selectedType = (RadioButton) findViewById(selectedId);
                     newCar.setType(selectedType.getText().toString());
@@ -107,6 +114,7 @@ public class SignUpActivity2 extends AppCompatActivity {
                     if(user!=null){
                         final DatabaseReference usersRef = ref.child("Parker").child(user.getUid()).child("Vehicle Details");
                         usersRef.setValue(newCar);
+                        saveDataToRespectiveNumber(newCar);
                         startActivity(new Intent(SignUpActivity2.this,HomePage.class));
                         finish();
                         Toast.makeText(SignUpActivity2.this, "New Car Added", Toast.LENGTH_SHORT).show();
@@ -115,6 +123,26 @@ public class SignUpActivity2 extends AppCompatActivity {
             }
         });
     }
+
+    private void saveDataToRespectiveNumber(NewCar newCar) {
+        final DatabaseReference users = ref.child("Users").child(String.valueOf(noUser));
+        users.setValue(newCar);
+    }
+
+    private void getUserNo() {
+        final DatabaseReference userNo = ref.child("User");
+        userNo.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                noUser = dataSnapshot.getChildrenCount();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode,permissions,grantResults);
@@ -141,13 +169,12 @@ public class SignUpActivity2 extends AppCompatActivity {
         newCar = new NewCar();
         userName = (TextInputLayout) findViewById(R.id.name);
         plateNo = (TextInputLayout) findViewById(R.id.lice_no);
+        carName = (TextInputLayout) findViewById(R.id.car_name);
         type = (RadioGroup) findViewById(R.id.type);
         register = (Button) findViewById(R.id.submit);
         back = (ImageView) findViewById(R.id.back);
         photo = (ImageButton) findViewById(R.id.photo);
         }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -173,13 +200,30 @@ public class SignUpActivity2 extends AppCompatActivity {
             return true;
         }
     }
+
     private boolean validatePlate(String plate_no) {
+        String expression = "^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(plate_no);
+
         if(plate_no.isEmpty()){
             plateNo.setError("This Field can't be Empty");
             return false;
-        }
-        else {
+        } else if (!matcher.matches()) {
+            plateNo.setError("Improper Number Plates format \n Please check example given");
+            return false;
+        } else {
             plateNo.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validateCarName(String car_Name) {
+        if (car_Name.isEmpty()) {
+            carName.setError("This Field can't be Empty");
+            return false;
+        } else {
+            carName.setError(null);
             return true;
         }
     }

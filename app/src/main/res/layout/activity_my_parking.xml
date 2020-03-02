@@ -7,83 +7,33 @@
     android:id="@+id/drawer"
     android:background="@color/Black"
     tools:context=".MyParking">
-    <RelativeLayout
+
+    <TextView
+        android:id="@+id/no_booking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="No Bookings Found"
+        android:textAllCaps="true"
+        android:textColor="#ff3366"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <!--First-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="7th Feb, 9:00"
-            android:textSize="23sp"
-            android:textColor="#ff3366"
-            android:layout_marginTop="50dp"
-            android:layout_marginStart="20dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="23sp"
-            android:textColor="@color/White"
-            android:text="Location: Andheri W \nTime: 3 Hrs \nAmount: 120Rs"
-            android:layout_marginTop="50dp"
-            android:layout_marginStart="190dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <!--Second-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="8th Feb, 11:00"
-            android:textSize="23sp"
-            android:textColor="#ff3366"
-            android:layout_marginTop="200dp"
-            android:layout_marginStart="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="23sp"
-            android:textColor="@color/White"
-            android:text="Location: Juhu \nTime: 2 Hrs \nAmount: 80Rs"
-            android:layout_marginTop="200dp"
-            android:layout_marginStart="190dp"/>
-
-        <!--Third-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="9th Feb, 10:00"
-            android:textSize="23sp"
-            android:textColor="#ff3366"
-            android:layout_marginTop="350dp"
-            android:layout_marginStart="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="23sp"
-            android:textColor="@color/White"
-            android:text="Location: Kurla \nTime: 1 Hrs \nAmount: 40Rs"
-            android:layout_marginTop="350dp"
-            android:layout_marginStart="190dp"/>
-
-        <!--Fourth-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10th Feb, 13:00"
-            android:textSize="23sp"
-            android:textColor="#ff3366"
-            android:layout_marginTop="450dp"
-            android:layout_marginStart="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="23sp"
-            android:textColor="@color/White"
-            android:text="Location: Powai \nTime: 5 Hrs \nAmount: 200Rs"
-            android:layout_marginTop="450dp"
-            android:layout_marginStart="190dp"/>
-    </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+        </RelativeLayout>
+    </ScrollView>
     <com.google.android.material.navigation.NavigationView
         app:headerLayout="@layout/drawable_layout"
         android:id="@+id/navigation"

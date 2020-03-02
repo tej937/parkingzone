@@ -1,117 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CheckOutPage"
     android:background="@color/Black">
 
-        <!--First-->
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp">
+
         <ImageView
+            android:id="@+id/location_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_marginStart="20dp"
-            android:src="@drawable/loc"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="23sp"
-            android:textColor="@color/White"
-            android:text="Location: Juhu"
-            android:layout_marginTop="80dp"
-            android:layout_marginStart="190dp"/>
+            android:padding="10dp"
+            android:src="@drawable/loc" />
 
-        <!--Second-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Type of Vehicle"
-            android:textSize="23sp"
-            android:textColor="#ff3366"
-            android:layout_marginTop="200dp"
-            android:layout_marginStart="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="23sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="35dp"
+            android:padding="10dp"
+            android:text="Location:"
             android:textColor="@color/White"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp"
+            android:text="Juhu"
+            android:textColor="@color/White"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:padding="10dp"
+        android:text="Juhu"
+        android:textColor="@color/White"
+        android:textSize="1sp" />
+
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Car Name:"
+            android:textColor="#ff3366"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Car Plate Number:"
+            android:textColor="#ff3366"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Parking Slot:"
+            android:textColor="#ff3366"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Parking Start Time:"
+            android:textColor="#ff3366"
+            android:textSize="20sp" />
+
+        <TextView
+            android:padding="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Parking End Time:"
+            android:textColor="#ff3366"
+            android:textSize="20sp" />
+
+        <TextView
+            android:padding="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Amount:"
+            android:textColor="#ff3366"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout"
+        android:layout_toEndOf="@id/layout1"
+        android:orientation="vertical"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/car_name"
+            android:padding="15dp"
             android:text="Honda Civic"
-            android:layout_marginTop="200dp"
-            android:layout_marginStart="190dp"/>
-
-        <!--Third-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Parking Slot"
-            android:textSize="23sp"
-            android:textColor="#ff3366"
-            android:layout_marginTop="280dp"
-            android:layout_marginStart="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="23sp"
             android:textColor="@color/White"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/plate_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="MH 00 AA 1928"
+            android:textColor="@color/White"
+            android:textSize="20sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/parking_spot"
+            android:padding="15dp"
             android:text="A13"
-            android:layout_marginTop="280dp"
-            android:layout_marginStart="190dp"/>
-
-        <!--Fourth-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Parking Start Time"
-            android:textSize="23sp"
-            android:textColor="#ff3366"
-            android:layout_marginTop="350dp"
-            android:layout_marginStart="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="23sp"
             android:textColor="@color/White"
-            android:text="11th Feb, 10:20"
-            android:layout_marginTop="350dp"
-            android:layout_marginStart="230dp"/>
-
-        <!--Five-->
+            android:textSize="20sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Parking End Time"
-            android:textSize="23sp"
-            android:textColor="#ff3366"
-            android:layout_marginTop="420dp"
-            android:layout_marginStart="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="23sp"
+            android:id="@+id/start_time"
             android:textColor="@color/White"
-            android:text="11th Feb, 13:20"
-            android:layout_marginTop="420dp"
-            android:layout_marginStart="230dp"/>
-
-        <!--Six-->
+            android:padding="15dp"
+            android:text="10:20"
+            android:textSize="20sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total Amount"
-            android:textSize="23sp"
-            android:textColor="#ff3366"
-            android:layout_marginTop="480dp"
-            android:layout_marginStart="20dp"/>
+            android:id="@+id/end_time"
+            android:padding="15dp"
+            android:text="13:20"
+            android:textColor="@color/White"
+            android:textSize="20sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="23sp"
+            android:id="@+id/price"
+            android:padding="15dp"
             android:textColor="@color/White"
             android:text="Rs. 130"
-            android:layout_marginTop="480dp"
-            android:layout_marginStart="230dp"/>
+            android:textSize="20sp" />
 
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_xlarge">
+
+        <include
+            android:id="@+id/googlepay_button"
+            layout="@layout/googlepay_button"
+            android:layout_width="@dimen/buy_button_width"
+            android:layout_height="@dimen/buy_button_height"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/googlepay_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/googlepay_status_checking"
+            android:textColor="#ff3366" />
+    </FrameLayout>
 </RelativeLayout>

@@ -32,8 +32,8 @@
             android:textSize="25sp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="230dp"
-            android:layout_height="47dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
             android:layout_below="@+id/details"
@@ -56,19 +56,19 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/lot_name"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:text="Address"
             android:textColor="@color/White"
             android:textSize="25sp" />
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="230dp"
-            android:layout_height="47dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/lot_name"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="10dp"
             android:layout_alignParentEnd="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="5dp"
             app:errorEnabled="true"
             android:id="@+id/address"
             >
@@ -82,7 +82,6 @@
                 android:maxLines="10"
                 android:minLines="6"
                 android:scrollbars="vertical"
-                android:paddingStart="10dp"
                 android:textColor="@color/White" />
         </com.google.android.material.textfield.TextInputLayout>
         <!--Area-->
@@ -92,30 +91,44 @@
             android:text="Area"
             android:textSize="25sp"
             android:textColor="@color/White"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_below="@id/address"
             android:layout_marginStart="20dp"
             />
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="230dp"
-            android:layout_height="47dp"
-            android:layout_below="@+id/address"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="10dp"
+        <!--        <com.google.android.material.textfield.TextInputLayout-->
+        <!--            android:layout_width="230dp"-->
+        <!--            android:layout_height="47dp"-->
+        <!--            android:layout_below="@+id/address"-->
+        <!--            android:layout_marginStart="30dp"-->
+        <!--            android:layout_marginEnd="10dp"-->
+        <!--            android:layout_alignParentEnd="true"-->
+        <!--            android:layout_centerHorizontal="true"-->
+        <!--            android:layout_marginTop="30dp"-->
+        <!--            app:errorEnabled="true"-->
+        <!--            android:id="@+id/area"-->
+        <!--            >-->
+        <!--            <com.google.android.material.textfield.TextInputEditText-->
+        <!--                android:layout_width="230dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginStart="10dp"-->
+        <!--                android:backgroundTint="#ff3366"-->
+        <!--                android:paddingStart="10dp"-->
+        <!--                android:textColor="@color/White" />-->
+        <!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <Spinner
+            android:layout_width="140dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/address"
+            android:layout_marginTop="5dp"
             android:layout_alignParentEnd="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            app:errorEnabled="true"
+            android:layout_marginEnd="40dp"
+            android:background="@color/White"
+            android:entries="@array/area"
+            android:padding="15dp"
             android:id="@+id/area"
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="230dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:backgroundTint="#ff3366"
-                android:paddingStart="10dp"
-                android:textColor="@color/White" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:spinnerMode="dropdown"
+            ></Spinner>
         <!--Contact-->
 <!--        <TextView-->
 <!--            android:layout_width="wrap_content"-->

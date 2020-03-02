@@ -118,11 +118,11 @@
 
         </LinearLayout>
     </RelativeLayout>
-        <HorizontalScrollView
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/slots_layout"
-            android:layout_below="@id/top_layout"/>
+            android:id="@+id/slots_layout" />
         <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -140,13 +140,13 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/back"
                         android:rotation="90"
-                        android:padding="20dp"
+                        android:padding="10dp"
                         android:id="@+id/drag"
                         />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Parking Lot Name"
+                        android:text="Lot Name"
                         android:textColor="@color/White"
                         android:textSize="18sp"
                         android:layout_toEndOf="@id/drag"
@@ -168,17 +168,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cost: "
-                        android:textSize="17sp"
-                        android:padding="10dp"
-                        android:textColor="@color/White"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="50dp"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="50$"
+                        android:text="Cost for \n30 mins : 10rs"
                         android:textSize="17sp"
                         android:padding="10dp"
                         android:textColor="@color/White"

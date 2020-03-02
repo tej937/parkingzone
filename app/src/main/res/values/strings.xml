@@ -11,46 +11,32 @@
     <string name="news3"><u>Mumbai Most Traffic \nCongested City In \nThe World,Delhi \nAt Fourth</u></string>
     <string name="news4"><u>Read More</u></string>
     <string name="api_key">AIzaSyAGIsVpEc2y_Zd26a60l5vfeyxsXYpjk88</string>
+    <string name="googlepay_status_unavailable" translatable="false">Unfortunately, Google Pay is not available on this phone.</string>
+    <string name="googlepay_status_checking" translatable="false">Checking if Google Pay is available...</string>
+    <string name="payments_show_name" translatable="false">Successfully received payment data for %s!</string>
     <string-array name="number">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
         <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
         <item>12</item>
-        <item>13</item>
-        <item>14</item>
-        <item>15</item>
-        <item>16</item>
-        <item>17</item>
         <item>18</item>
-        <item>19</item>
-        <item>20</item>
-        <item>21</item>
-        <item>22</item>
-        <item>23</item>
         <item>24</item>
-        <item>25</item>
-        <item>26</item>
-        <item>27</item>
-        <item>28</item>
-        <item>29</item>
         <item>30</item>
-        <item>31</item>
-        <item>32</item>
-        <item>33</item>
-        <item>34</item>
-        <item>35</item>
         <item>36</item>
-        <item>37</item>
-        <item>38</item>
-        <item>39</item>
-        <item>40</item>
+        <item>42</item>
+        <item>48</item>
+        <item>54</item>
+        <item>60</item>
     </string-array>
+    <string-array name="area">
+        <item>Andheri</item>
+        <item>Ville Parle</item>
+        <item>Santacruze</item>
+        <item>Bandra</item>
+        <item>D N Nagar</item>
+        <item>Jogeshwari</item>
+        <item>Goregaon</item>
+        <item>Saki Naka</item>
+        <item>Khar Road</item>
+        <item>Mithibai College</item>
+    </string-array>
+
 </resources>

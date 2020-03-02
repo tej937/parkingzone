@@ -1,12 +1,5 @@
 package com.example.parkingzone;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,10 +8,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -50,8 +48,9 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
     TextInputLayout name_edit,phone_edit,mail_edit,password_edit,lice_plate_edit;
     ImageView edit;
     Button update;
-    NewUser newUser;
     NewCar newCar;
+    NewUser newUser;
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
 
@@ -140,8 +139,7 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
         });
     }
 
-    private void updateMail()
-    {
+    private void updateMail() {
         FirebaseUser email_user = FirebaseAuth.getInstance().getCurrentUser();
         if(email_user != null) {
             email_user.updateEmail(newUser.getMail()).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -154,8 +152,8 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
         }else
             Toast.makeText(UserProfile.this, "Failure", Toast.LENGTH_SHORT).show();
     }
-    private void retrieveCarData()
-    {
+
+    private void retrieveCarData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             final DatabaseReference usersRef = ref.child("Parker").child(user.getUid()).child("Vehicle Details");
@@ -174,6 +172,7 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
             });
         }
     }
+
     private void retrieveData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -194,7 +193,6 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
             });
         }
     }
-
     private void getDataFromFirebase(DataSnapshot dataSnapshot) {
         newUser.setMail((String) dataSnapshot.child("mail").getValue());
         newUser.setPhone((String) dataSnapshot.child("phone").getValue());
@@ -211,6 +209,7 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
         lice_plate.setText(newCar.getPlate());
         name.setText(newCar.getName());
     }
+
     private void initialise() {
         mDraw = (DrawerLayout)findViewById(R.id.drawer);
         mToggle = new ActionBarDrawerToggle(this, mDraw,R.string.open,R.string.close);

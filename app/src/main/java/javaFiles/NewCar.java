@@ -1,7 +1,19 @@
 package javaFiles;
 
 public class NewCar {
-    String name,plate,type;
+    String name;
+    String plate;
+    String type;
+    String carType;
+
+    public String getCarType() {
+        return carType;
+    }
+
+    public void setCarType(String carType) {
+        this.carType = carType;
+    }
+
 
     public String getName() {
         return name;
