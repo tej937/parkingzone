@@ -4,7 +4,7 @@ public class NewCar {
     String name;
     String plate;
     String type;
-    String carType;
+    String carType;//Car Name
 
     public String getCarType() {
         return carType;

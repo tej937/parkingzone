@@ -5,30 +5,184 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer"
+    android:background="@color/Black"
     tools:context=".PaymentMethod">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
         <TextView
+            android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Payment Page"
-            android:textSize="35sp"
-            android:textColor="@color/Green"
-            android:textStyle="bold"
-            android:id="@+id/apu"
-            />
-        <Button
-            android:layout_width="155dp"
-            android:layout_height="50dp"
-            android:layout_below="@id/apu"
-            android:layout_centerHorizontal="true"
-            android:text="Sign Out"
-            android:id="@+id/signout"
-            />
-    </RelativeLayout>
+            android:padding="20dp"
+            android:text="Payment Methods"
+            android:textColor="@color/White"
+            android:textSize="22sp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/method1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/roundbutton"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/one"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/roundbutton"
+                    android:src="@drawable/paypal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/one"
+                    android:padding="20dp"
+                    android:text="PayPal"
+                    android:textColor="@color/White"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:rotation="180"
+                    android:src="@drawable/back"
+                    android:tint="@color/White" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/method2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/roundbutton"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/one2"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/roundbutton"
+                    android:padding="5dp"
+                    android:src="@drawable/gpay" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/one2"
+                    android:padding="20dp"
+                    android:text="Google Pay"
+                    android:textColor="@color/White"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:rotation="180"
+                    android:src="@drawable/back"
+                    android:tint="@color/White" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/method3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/roundbutton"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/one3"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/roundbutton"
+                    android:src="@drawable/upi" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/one3"
+                    android:padding="20dp"
+                    android:text="Pay with UPI ID"
+                    android:textColor="@color/White"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:rotation="180"
+                    android:src="@drawable/back"
+                    android:tint="@color/White" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/method4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/roundbutton"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/one4"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/roundbutton"
+                    android:src="@drawable/cod" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/one4"
+                    android:padding="20dp"
+                    android:text="Cash On Delivery"
+                    android:textColor="@color/White"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:rotation="180"
+                    android:src="@drawable/back"
+                    android:tint="@color/White" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
     <com.google.android.material.navigation.NavigationView
         app:headerLayout="@layout/drawable_layout"
         android:id="@+id/navigation"

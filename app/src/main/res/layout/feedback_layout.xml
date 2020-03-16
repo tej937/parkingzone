@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/popup_round">
+
+    <TextView
+        android:id="@+id/question_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Would you like to rate us on PlayStore ?"
+        android:textColor="@color/White"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/question_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:rating="2"
+        android:theme="@style/RatingBar" />
+
+    <TextView
+        android:id="@+id/tex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rating"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:text="OR"
+        android:textColor="#ff3366"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tex"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Would you like to send feedback to Developers ?"
+        android:textColor="@color/White"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/feedback_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/feedback"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/White"
+        android:hint="Please write feedback here"
+        android:padding="20dp"
+        android:textColor="@color/White"
+        android:textColorHint="@color/White"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/feedback_edit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/roundbutton"
+        android:padding="20dp"
+        android:text="Send Feedback"
+        android:textColor="@color/White"
+        android:visibility="gone" />
+
+</RelativeLayout>

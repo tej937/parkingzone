@@ -40,6 +40,7 @@ import java.util.Date;
 import java.util.List;
 
 import javaFiles.CheckOutDetails;
+import javaFiles.NewCar;
 import javaFiles.NewOwner;
 
 public class ParkingLot extends AppCompatActivity implements View.OnClickListener {
@@ -77,17 +78,62 @@ public class ParkingLot extends AppCompatActivity implements View.OnClickListene
     TextView place_name, parking_no, lot_name;
     Dialog timeDialog;
     CheckOutDetails checkOutDetails;
+    NewCar newCar;
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
     long maxId = 0;
     NewOwner newOwner;
-    private String nam;
+    private String seatNo;
     // long max = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking_lot);
+        initialise();
+        getBookingNo();
+        Intent intent = getIntent();
+        complete_layout = intent.getStringExtra("layout");
+        String nam = intent.getStringExtra("position");
+        String area = intent.getStringExtra("area");
+        //Toast.makeText(this, ""+area, Toast.LENGTH_SHORT).show();
+
+        final DatabaseReference reference = ref.child(area).child("OwnerInfo").child(nam);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    getOwnerDataBaseFromFirebase(dataSnapshot);
+                } else {
+                    Toast.makeText(ParkingLot.this, "No Layout Found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(ParkingLot.this, "A"+nam, Toast.LENGTH_LONG).show();
+                startActivity(new Intent(ParkingLot.this,HomePage.class));
+                finish();
+            }
+        });
+        book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                seatNo = parking_no.getText().toString();
+                checkOutDetails.setParking_slot(parking_no.getText().toString());
+                display_Time();
+            }
+        });
+
+    }
+
+    private void getBookingNo() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             final DatabaseReference bookingId = ref.child("New Booking").child(user.getUid());
@@ -103,51 +149,46 @@ public class ParkingLot extends AppCompatActivity implements View.OnClickListene
                 }
             });
         }
-        initialise();
-        Intent intent = getIntent();
-        complete_layout = intent.getStringExtra("layout");
-        nam = intent.getStringExtra("position");
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(ParkingLot.this, "A"+nam, Toast.LENGTH_LONG).show();
-                startActivity(new Intent(ParkingLot.this,HomePage.class));
-                finish();
-            }
-        });
-        book.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkOutDetails.setParking_slot(parking_no.getText().toString());
-                display_Time();
-            }
-        });
-        final DatabaseReference reference = ref.child("OwnerInfo").child(nam);
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    getDataBaseFromFirebase(dataSnapshot);
-                } else {
-                    Toast.makeText(ParkingLot.this, "No Layout Found", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
     }
 
-    private void getDataBaseFromFirebase(DataSnapshot dataSnapshot) {
+    private void getOwnerDataBaseFromFirebase(DataSnapshot dataSnapshot) {
         newOwner.setLayout1((String) dataSnapshot.child("layout1").getValue());
         newOwner.setParking_name((String) dataSnapshot.child("parking_name").getValue());
         newOwner.setArea((String) dataSnapshot.child("area").getValue());
+        newOwner.setAddress((String) dataSnapshot.child("address").getValue());
+        retrieveCarData();
         complete_layout = newOwner.getLayout1();
         lot_name.setText(newOwner.getParking_name());
         displayLayout();
         newOwner.setLayout1(null);
     }
+
+    private void retrieveCarData() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            final DatabaseReference usersRef = ref.child("Parker").child(user.getUid()).child("Vehicle Details");
+            usersRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists())
+                        getCarDataFromFirebase(dataSnapshot);
+                    else
+                        Toast.makeText(ParkingLot.this, "Please Register your Car ", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(ParkingLot.this, "U have failed this City " + databaseError, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void getCarDataFromFirebase(DataSnapshot dataSnapshot) {
+        newCar.setPlate((String) dataSnapshot.child("plate").getValue());
+    }
+
 
     private void display_Time() {
         final Button checkout;
@@ -212,11 +253,15 @@ public class ParkingLot extends AppCompatActivity implements View.OnClickListene
                 if(start_time.getText().equals("00 : 00") | end_time.getText().equals("00 : 00"))
                     Toast.makeText(ParkingLot.this, "Please specify the time", Toast.LENGTH_SHORT).show();
                 else{
-                    Toast.makeText(ParkingLot.this, "Success", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ParkingLot.this, "Success", Toast.LENGTH_SHORT).show();
                     checkOutDetails.setStart_time(start_time.getText().toString());
                     checkOutDetails.setEnd_time(end_time.getText().toString());
                     checkOutDetails.setLocation(newOwner.getArea());
                     checkOutDetails.setPayment_status("fail");
+                    checkOutDetails.setAddress(newOwner.getAddress());
+                    checkOutDetails.setPlace_name(newOwner.getParking_name());
+                    checkOutDetails.setSeatNo(Integer.parseInt(seatNo.substring(1)));
+                    checkOutDetails.setPlate_no(newCar.getPlate());
                     SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
                     String currentDate = sdf.format(new Date());
                     checkOutDetails.setCurrent_date(currentDate);
@@ -224,9 +269,8 @@ public class ParkingLot extends AppCompatActivity implements View.OnClickListene
                     if (user != null) {
                         final DatabaseReference usersRef = ref.child("New Booking").child(user.getUid()).child(String.valueOf(maxId + 1));
                         usersRef.setValue(checkOutDetails);
-//                        final DatabaseReference request = ref.child("Request Generated").child(String.valueOf(max+1));
-//                        request.setValue(checkOutDetails);
-//                        max = max +1;
+                        final DatabaseReference request = ref.child(newOwner.getAddress()).child("Request Generated").child(user.getUid());
+                        request.setValue(checkOutDetails);
                         startActivity(new Intent(ParkingLot.this, CheckOutPage.class));
                         timeDialog.dismiss();
                         finish();
@@ -252,8 +296,12 @@ public class ParkingLot extends AppCompatActivity implements View.OnClickListene
             long hours = (int) ((difference - (1000 * 60 * 60 * 24 * days)) / (1000 * 60 * 60));
             long min = (int) (difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hours)) / (1000 * 60);
             hours = (hours < 0 ? -hours : hours);
-            calculatePrice(hours, min);
-            return hours + " Hour " + min + " Min";
+            if (min < 30 & hours == 0)
+                return "Please set time difference more than 30 min";
+            else {
+                calculatePrice(hours, min);
+                return hours + ":" + min;
+            }
         }
     }
     private void initialise() {
@@ -271,6 +319,7 @@ public class ParkingLot extends AppCompatActivity implements View.OnClickListene
         timeDialog = new Dialog(this);
         checkOutDetails = new CheckOutDetails();
         newOwner = new NewOwner();
+        newCar = new NewCar();
     }
     //Original Display of layout
 //    private void displayLayout() {
@@ -353,7 +402,6 @@ public class ParkingLot extends AppCompatActivity implements View.OnClickListene
 //            }
 //        }
 //    }
-
     //New Display of layout
     public void displayLayout() {
         LinearLayout layoutSeat = new LinearLayout(this);
@@ -450,7 +498,6 @@ public class ParkingLot extends AppCompatActivity implements View.OnClickListene
             }
         }
     }
-
     private void calculatePrice(long hours, long min) {
         checkOutDetails.setTotal_amount(String.valueOf(((hours * 60 + min) / 30) * 5));
     }
@@ -474,7 +521,7 @@ public class ParkingLot extends AppCompatActivity implements View.OnClickListene
             min = "0" + minutes ;
         else
             min = String.valueOf(minutes);
-        editText.setText(new StringBuilder().append(hour).append(':').append(min ).append(" ").append(timeSet).toString());
+        editText.setText(new StringBuilder().append(hour).append(':').append(min).append(" ").append(timeSet).toString());
     }
     @Override
     public void onClick(View view) {
@@ -485,9 +532,9 @@ public class ParkingLot extends AppCompatActivity implements View.OnClickListene
                     selectedIds = selectedIds.replace(+view.getId() + ",", "");
                     view.setBackgroundResource(R.drawable.paid_parking);
                     card_view.setVisibility(View.GONE);
-                }else if(flag == 1)
+                } else if (flag == 1) {
                     Toast.makeText(this, "Only 1 Car Can be booked", Toast.LENGTH_SHORT).show();
-                else{
+                } else {
                     flag = 1;
                    // selectedIds = selectedIds + view.getId() + ",";
                     view.setBackgroundResource(R.drawable.selected_parking);

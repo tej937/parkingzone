@@ -94,24 +94,30 @@
             android:textSize="23sp"
             android:id="@+id/notification_text"
             android:layout_marginTop="15dp"/>
-        <ImageView
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/notification"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/drive"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="80dp"
+            app:trackTint="#ff3366" />
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/back"
-            android:rotation="180"
-            android:layout_marginTop="15dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="80dp"
-            android:layout_below="@id/darkmode_text"/>
+            android:id="@+id/faq_layout"
+            android:layout_below="@id/notification_text">
         <TextView
             android:layout_marginTop="15dp"
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_below="@id/notification_text"
             android:layout_marginStart="20dp"
             android:id="@+id/faq"
-            android:text="FAQ"
+            android:text="FAQs"
             android:textColor="#ff3366"
             android:textSize="23sp"/>
         <ImageView
@@ -121,48 +127,63 @@
             android:rotation="180"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="80dp"
-            android:layout_below="@id/notification_text"
             android:layout_marginTop="15dp"/>
-        <TextView
-            android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_below="@id/faq"
-            android:layout_marginStart="20dp"
-            android:id="@+id/question_text"
-            android:text="Ask a Question"
-            android:textColor="#ff3366"
-            android:textSize="23sp"/>
-        <ImageView
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/question_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/back"
-            android:rotation="180"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="80dp"
-            android:layout_below="@id/faq"
-            android:layout_marginTop="15dp"/>
-        <TextView
-            android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_below="@id/question_text"
-            android:layout_marginStart="20dp"
-            android:id="@+id/feedback"
-            android:text="Send Feedback"
-            android:textColor="#ff3366"
-            android:textSize="23sp"/>
-        <ImageView
+            android:layout_below="@id/faq_layout">
+
+            <TextView
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:id="@+id/question_text"
+                android:text="Send Feedback"
+                android:textColor="#ff3366"
+                android:textSize="23sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back"
+                android:rotation="180"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="80dp"
+                android:layout_marginTop="15dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tnc_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/back"
-            android:rotation="180"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="80dp"
-            android:layout_below="@id/question_text"
-            android:layout_marginTop="15dp"/>
+            android:layout_below="@id/question_layout">
+
+            <TextView
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:id="@+id/feedback"
+                android:text="Terms &amp; Condition"
+                android:textColor="#ff3366"
+                android:textSize="23sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back"
+                android:rotation="180"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="80dp"
+                android:layout_marginTop="15dp"/>
+        </RelativeLayout>
+
     </RelativeLayout>
     <com.google.android.material.navigation.NavigationView
         app:headerLayout="@layout/drawable_layout"

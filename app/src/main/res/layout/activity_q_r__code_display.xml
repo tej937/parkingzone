@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Black"
+    tools:context=".QR_CodeDisplay">
+
+    <RelativeLayout
+        android:id="@+id/screen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/completed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ticket"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/Black"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:id="@+id/one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/half_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/gif"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/ticket1"
+                    android:tint="#ff3366" />
+
+                <ImageView
+                    android:id="@+id/half_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/half_one"
+                    android:layout_centerHorizontal="true"
+                    android:padding="4dp"
+                    android:rotation="180"
+                    android:src="@drawable/ticket_1" />
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/half_two"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_horizontal"
+                    android:padding="15dp"
+                    android:text="@string/TnC" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/text"
+                    android:layout_centerHorizontal="true"
+                    android:scaleX="17"
+                    android:src="@drawable/line" />
+
+                <TextView
+                    android:id="@+id/booking_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/text"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="25dp"
+                    android:text="Booking ID: "
+                    android:textColor="@color/Black" />
+
+                <ImageView
+                    android:id="@+id/qr_code"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_above="@id/text"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="50dp" />
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="30dp"
+                    android:scaleX="1"
+                    android:scaleY="1.2"
+                    android:src="@drawable/gif2" />
+
+                <TextView
+                    android:id="@+id/place_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/gif"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="15dp"
+                    android:padding="5dp"
+                    android:text="Parking Place: "
+                    android:textColor="@color/Black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/place_name"
+                    android:layout_centerHorizontal="true"
+                    android:scaleX="17"
+                    android:src="@drawable/line" />
+                <!--            Timing-->
+                <!--            Start Time-->
+                <TextView
+                    android:id="@+id/start_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/place_name"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="15dp"
+                    android:padding="5dp"
+                    android:paddingStart="10dp"
+                    android:text="Start Time: "
+                    android:textColor="@color/Black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/start_text"
+                    android:layout_marginStart="70dp"
+                    android:padding="5dp"
+                    android:paddingStart="15dp"
+                    android:text="00 : 00"
+                    android:textColor="@color/Black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+                <!--            End Time-->
+                <TextView
+                    android:id="@+id/end_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/place_name"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@id/start_text"
+                    android:padding="5dp"
+                    android:text="End Time: "
+                    android:textColor="@color/Black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/end_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/start_text"
+                    android:layout_marginStart="60dp"
+                    android:layout_toEndOf="@id/start_text"
+                    android:padding="5dp"
+                    android:text="00 : 00"
+                    android:textColor="@color/Black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/end_time"
+                    android:layout_centerHorizontal="true"
+                    android:scaleX="17"
+                    android:src="@drawable/line" />
+
+                <TextView
+                    android:id="@+id/address_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/start_time"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="15dp"
+                    android:padding="5dp"
+                    android:paddingStart="10dp"
+                    android:text="Address: "
+                    android:textColor="@color/Black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/address_text"
+                    android:layout_marginStart="70dp"
+                    android:padding="5dp"
+                    android:paddingStart="15dp"
+                    android:text="City Center Mall Andheri west Mumbai"
+                    android:textColor="@color/Black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/seat_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/end_time"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@id/address"
+                    android:padding="5dp"
+                    android:text="Parking Spot:"
+                    android:textColor="@color/Black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/seat_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/seat_text"
+                    android:layout_toEndOf="@id/address"
+                    android:padding="5dp"
+                    android:paddingStart="20dp"
+                    android:text="A420"
+                    android:textColor="@color/Black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/start_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ticket"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/roundbutton"
+            android:backgroundTint="#ff3366"
+            android:padding="10dp"
+            android:text="Start Parking Time"
+            android:textAllCaps="false"
+            android:textColor="@color/White"
+            android:textSize="20sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+</ScrollView>

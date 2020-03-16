@@ -23,7 +23,4 @@
             android:icon="@drawable/signout"
             android:title="Sign Out" />
     </group>
-
-
-
 </menu>

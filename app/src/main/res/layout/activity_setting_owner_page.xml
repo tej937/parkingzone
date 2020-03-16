@@ -42,7 +42,7 @@
                     android:padding="10dp"
                     android:text="UserName"
                     android:textColor="@color/White"
-                    android:textSize="23sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/phone_number"
@@ -54,15 +54,6 @@
                     android:text="9876543210"
                     android:textColor="@color/White"
                     android:textSize="20sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/username"
-                    android:padding="10dp"
-                    android:rotation="180"
-                    android:src="@drawable/back" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -105,9 +96,8 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_below="@id/darkmode_text"
-            android:layout_marginStart="80dp"
+            android:layout_toStartOf="@id/status_switch"
             android:layout_marginTop="15dp"
-            android:layout_toEndOf="@id/darkmode_text"
             android:gravity="center"
             android:text="Closed"
             android:textColor="#ff3366"
@@ -122,21 +112,6 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="80dp"
             app:trackTint="#ff3366" />
-
-        <TextView
-            android:id="@+id/opened"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_below="@id/darkmode_text"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="15dp"
-            android:layout_toEndOf="@id/closed"
-            android:gravity="center"
-            android:text="Opened"
-            android:textColor="#ff3366"
-            android:textSize="17sp"
-            android:visibility="gone" />
-
         <TextView
             android:id="@+id/notification_text"
             android:layout_width="wrap_content"
@@ -145,41 +120,89 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="Notifications"
+            android:text="Parking Spots"
             android:textColor="#ff3366"
             android:textSize="23sp" />
 
-        <ImageView
+        <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/status"
+            android:id="@+id/slots"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="80dp"
-            android:rotation="180"
-            android:src="@drawable/back" />
-
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/roundbutton"
+            android:elevation="10dp"
+            android:padding="5dp"
+            app:backGroundColor="@color/Black"
+            app:finalNumber="60"></com.cepheuen.elegantnumberbutton.view.ElegantNumberButton>
+        <!--        <ProgressBar-->
+        <!--            android:id="@+id/barTimer"-->
+        <!--            style="?android:attr/progressBarStyleHorizontal"-->
+        <!--            android:layout_width="200dp"-->
+        <!--            android:layout_height="200dp"-->
+        <!--            android:max="100"-->
+        <!--            android:progress="50"-->
+        <!--            android:progressTint="#ff3366"-->
+        <!--            android:layout_centerHorizontal="true"-->
+        <!--            android:layout_marginTop="50dp"-->
+        <!--            android:background="@drawable/circular_shape"-->
+        <!--            android:progressDrawable="@drawable/progress_bar"/>-->
         <TextView
             android:id="@+id/faq"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_below="@id/notification_text"
+            android:layout_below="@id/slots"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="FAQ"
+            android:text="Current Admin"
             android:textColor="#ff3366"
             android:textSize="23sp" />
 
-        <ImageView
+        <TextView
+            android:id="@+id/admin_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/notification_text"
+            android:layout_below="@id/slots"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="80dp"
-            android:rotation="180"
-            android:src="@drawable/back" />
+            android:drawableEnd="@drawable/admin"
+            android:padding="10dp"
+            android:text="Rakesh Singh  "
+            android:textColor="@color/White"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/admin_name_edit"
+            android:layout_width="200dp"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/slots"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@color/White"
+            android:padding="10dp"
+            android:textColor="@color/White"
+            android:textColorHint="@color/White"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/submit"
+            android:layout_below="@id/admin_name_edit"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/roundbutton"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="@color/White"
+            android:textSize="20sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/question_text"
@@ -189,11 +212,12 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="Ask a Question"
+            android:text="Terms &amp; Condition"
             android:textColor="#ff3366"
             android:textSize="23sp" />
 
         <ImageView
+            android:id="@+id/tnc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/faq"
@@ -202,29 +226,6 @@
             android:layout_marginEnd="80dp"
             android:rotation="180"
             android:src="@drawable/back" />
-
-        <TextView
-            android:id="@+id/feedback"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_below="@id/question_text"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="Send Feedback"
-            android:textColor="#ff3366"
-            android:textSize="23sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/question_text"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="80dp"
-            android:rotation="180"
-            android:src="@drawable/back" />
-
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -236,6 +237,8 @@
         app:headerLayout="@layout/drawable_layout"
         app:itemIconTint="@color/White"
         app:itemTextColor="@color/White"
-        app:menu="@menu/owner_menu"></com.google.android.material.navigation.NavigationView>
+        app:menu="@menu/owner_menu">
+
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

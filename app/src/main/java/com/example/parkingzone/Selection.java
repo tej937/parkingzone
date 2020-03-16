@@ -90,17 +90,7 @@ public class Selection extends AppCompatActivity {
     private void checkTypeOfUser() {
         progressDialog.show(); // Display Progress Dialog
         progressDialog.setCancelable(false);
-//        new Thread(new Runnable() {
-//            public void run() {
-//                try {
-//                    checkTypeOfUser();
-//                    //Thread.sleep(1000);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                progressDialog.dismiss();
-//            }
-//        }).start();
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference check_user = ref.child("Parker").child(user.getUid()).child("Parker Details");
         check_user.addValueEventListener(new ValueEventListener() {

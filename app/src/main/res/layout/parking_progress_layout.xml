@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="2"
+    android:background="@color/Black">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/booking_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:text="Booking Seat: "
+            android:textColor="#ff3366"
+            android:textSize="20sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@id/booking_no">
+
+            <TextView
+                android:id="@+id/car_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:text="Car Name"
+                android:textColor="@color/White"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/car_name"
+                android:layout_marginStart="30dp"
+                android:padding="5dp"
+                android:text="Car Plate NO."
+                android:textColor="@color/White"
+                android:textSize="20sp" />
+
+
+            <TextView
+                android:id="@+id/total_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/username"
+                android:layout_marginStart="30dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
+                android:text="Total Time"
+                android:textColor="@color/White"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>

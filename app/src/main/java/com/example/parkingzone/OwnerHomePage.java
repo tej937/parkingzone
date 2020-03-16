@@ -1,6 +1,7 @@
 package com.example.parkingzone;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -8,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +24,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.parkingzone.Adapters.Booking_Progress_Adpater;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,10 +36,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javaFiles.CheckOutDetails;
 import javaFiles.NewOwner;
 
 public class OwnerHomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -43,24 +51,7 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
     //String row = "/UUUUUU";
     // String spaces = "/";
     String complete_layout = "";
-    // String complete_lay;
-//    String seats = "__U_U_U_U_U_U/"
-//            + "_/"
-//            + "__U_U_A_U_U_U/"
-//            + "__/"
-//            + "__U_P_U_U_U_U/"
-//            + "_/"
-//            + "__U_U_U_U_U_U/"
-//            + "_/"
-//            + "__U_U_U_B_U_U/"
-//            + "_/"
-//            + "__U_U_U_U_U_U/"
-//            + "_/"
-//            + "__U_U_U_U_U_U/"
-//            + "_/";
-
-    //int total_slots;
-
+    String qr_result;
     List<TextView> seatViewList = new ArrayList<>();
     int width = 40;
     int height = 35;
@@ -68,6 +59,9 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
     int STATUS_SELECTED = 2;
     int STATUS_BOOKED = 3;
     String selectedIds = "";
+    //private long noOwner;
+    int flag = 1;
+
     // int[] arr;
     //int flag = 0;
 
@@ -77,23 +71,30 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
     Dialog myDialog;
     View headerView;
 
+    RecyclerView recyclerView;
+    TextView textView, textView1;
+    ArrayList<CheckOutDetails> list;
+    ProgressDialog progressDialog;
+    CheckOutDetails checkOutDetails;
+
     Button update_details, book, delete;
     NewOwner newOwner;
     RelativeLayout update_layout, main_layout;
-    TextView temp, tem;
+    TextView tem;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
+    Booking_Progress_Adpater booking_progress_adpater;
+    private IntentIntegrator qrScan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_home_page);
         initialise();
-        checkDetails();
         retrieveData();
         //displayLayout();
         //constructString();
-        //displayLayout();
+
         update_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,32 +106,48 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null) {
-                    final DatabaseReference usersRef = ref.child("Owner").child(user.getUid()).child("Parking Details").child("layout1");
-                    usersRef.setValue(complete_layout);
-//                    startActivity(new Intent(OwnerHomePage.this,OwnerHomePage.class));
-//                    finish();
-                    //tem.setText(complete_lay);
-                    //Toast.makeText(this, "Layout Updated", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(OwnerHomePage.this, "Update Coming Soon", Toast.LENGTH_SHORT).show();
+                saveNewSeat();
             }
         });
     }
 
-//    private void constructString() {
-//        long number_rows = total_slots/6;
-//        for(int i = 1;i<=number_rows;i++){
-//            complete_layout = complete_layout + row;
-//        }
-//       }
 
+    public void saveNewSeat() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            final DatabaseReference usersRef = ref.child("Owner").child(user.getUid()).child("Parking Details").child("layout1");
+            usersRef.setValue(complete_layout);
+            final DatabaseReference update_Layout = ref.child("OwnerInfo").child(user.getUid()).child("layout1");
+            update_Layout.setValue(complete_layout);
+            progressDialog = new ProgressDialog(OwnerHomePage.this);
+            progressDialog.setMessage("Updating Layout..."); // Setting Message
+            progressDialog.setTitle("Please Wait"); // Setting Title
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
+
+            progressDialog.show(); // Display Progress Dialog
+            progressDialog.setCancelable(false);
+            new Thread() {
+            @Override
+            public void run() {
+                try {
+                    synchronized (this) {
+                        wait(2000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(new Intent(OwnerHomePage.this, OwnerHomePage.class));
+                                finish();
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                progressDialog.dismiss();
+            }
+            }.start();
+        }
+    }
     private void retrieveData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -138,13 +155,14 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
             usersRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
+                    if (dataSnapshot.exists() & dataSnapshot.getChildrenCount() == 7) {
+                        //Toast.makeText(OwnerHomePage.this, "All required data uploaded", Toast.LENGTH_SHORT).show();
                         getDataFromFirebase(dataSnapshot);
                     } else {
-                        Toast.makeText(OwnerHomePage.this, "Chutiya kut gaya", Toast.LENGTH_SHORT).show();
+                        update_layout.setVisibility(View.VISIBLE);
+                        main_layout.setVisibility(View.GONE);
                     }
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Toast.makeText(OwnerHomePage.this, "U have failed this City " + databaseError, Toast.LENGTH_SHORT).show();
@@ -152,38 +170,59 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
             });
         }
     }
-
     private void getDataFromFirebase(DataSnapshot dataSnapshot) {
         newOwner.setLayout1((String) dataSnapshot.child("layout1").getValue());
         newOwner.setSlots((String) dataSnapshot.child("slots").getValue());
-        //temp.setText(newOwner.getSlots());
+        newOwner.setAddress((String) dataSnapshot.child("address").getValue());
+        newOwner.setParking_name((String) dataSnapshot.child("parking_name").getValue());
+        textView1.setText(newOwner.getParking_name());
+        getRequest();
         complete_layout = newOwner.getLayout1();
         displayLayout();
-        //total_slots = Integer.parseInt(((temp.getText().toString())));
-        //constructString();
     }
 
-    private void checkDetails() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference check_details = ref.child("Owner").child(user.getUid()).child("Parking Details");
-        check_details.addValueEventListener(new ValueEventListener() {
+    private void getRequest() {
+        final DatabaseReference reference = ref.child(newOwner.getAddress()).child("Request Generated");
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists() & dataSnapshot.getChildrenCount() == 7)
-                    Toast.makeText(OwnerHomePage.this, "All required data uploaded", Toast.LENGTH_SHORT).show();
-                else{
-                    update_layout.setVisibility(View.VISIBLE);
-                    main_layout.setVisibility(View.GONE);
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        checkOutDetails = dataSnapshot1.getValue(CheckOutDetails.class);
+                        list.add(checkOutDetails);
+                        displayRequest();
+                    }
+                    booking_progress_adpater = new Booking_Progress_Adpater(OwnerHomePage.this, list);
+                    recyclerView.setAdapter(booking_progress_adpater);
+                } else {
+                    textView.setVisibility(View.VISIBLE);
+                    //Toast.makeText(OwnerHomePage.this, "Ooops Sorry !!!!!!!!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
+    }
+
+    private void displayRequest() {
+        final Button confirm;
+        TextView text;
+        myDialog.setContentView(R.layout.request_layout);
+        confirm = myDialog.findViewById(R.id.yess);
+        text = myDialog.findViewById(R.id.question_text);
+        text.setText("You have a parking request at " + checkOutDetails.getSeatNo() + ". Please confirm request if available");
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SeatsUpdation(checkOutDetails.getSeatNo());
+                saveNewSeat();
+                myDialog.dismiss();
             }
         });
     }
-
     private void initialise() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.Black)));
@@ -193,12 +232,13 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
         update_layout = (RelativeLayout) findViewById(R.id.update_layout);
         main_layout = findViewById(R.id.main_layout);
         newOwner = new NewOwner();
-        temp = findViewById(R.id.temp);
         slot_layout = findViewById(R.id.slots_layout);
         book = findViewById(R.id.book_spot);
         delete = findViewById(R.id.delete_spot);
+        textView = findViewById(R.id.no_booking);
         //complete_layout = "/" + complete_layout;
         tem = findViewById(R.id.temp1);
+        qrScan = new IntentIntegrator(this);
 
         mDraw = (DrawerLayout) findViewById(R.id.drawer);
         mToggle = new ActionBarDrawerToggle(this, mDraw, R.string.open, R.string.close);
@@ -210,8 +250,20 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
         navigationView.setNavigationItemSelectedListener(this);
         myDialog = new Dialog(this);
 
+        ref.keepSynced(true);
+        recyclerView = findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+        list = new ArrayList<CheckOutDetails>();
+        textView = findViewById(R.id.no_booking);
+        textView1 = findViewById(R.id.text2);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.scanner, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
@@ -222,11 +274,6 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
             return true;
         } else if (id == R.id.setting) {
             Intent intent = new Intent(OwnerHomePage.this, SettingOwnerPage.class);
-            startActivity(intent);
-            finish();
-            return true;
-        } else if (id == R.id.payment) {
-            Intent intent = new Intent(OwnerHomePage.this, TransactionPage.class);
             startActivity(intent);
             finish();
             return true;
@@ -268,15 +315,35 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
         } else
             return false;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mToggle.onOptionsItemSelected(item)) {
             return true;
+        } else if (item.getItemId() == R.id.scanner) {
+            OpenScanner();
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void OpenScanner() {
+        qrScan.initiateScan();
+        Toast.makeText(this, "Scanning QR code Wait", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
+            } else {
+                qr_result = result.getContents();
+                Toast.makeText(this, "" + result.getContents(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
     public void displayLayout() {
         LinearLayout layoutSeat = new LinearLayout(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -372,7 +439,6 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
             }
         }
     }
-
     @Override
     public void onClick(View view) {
         if ((int) view.getTag() == STATUS_UNSELECTED) {
@@ -381,30 +447,54 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
 //          myName.setCharAt(complete_layout.indexOf("U"), 'A');
             view.setBackgroundResource(R.drawable.selected_parking);
             int a = view.getId();
-            Toast.makeText(this, "Seat No." + a, Toast.LENGTH_SHORT).show();
-            //temp.setText(String.valueOf(complete_layout));
-            char[] temp1 = complete_layout.toCharArray();
-            if (a >= 1 & a <= 6)
-                temp1[a] = 'B';
-            else if (a >= 7 & a <= 12)
-                temp1[a + 1] = 'B';
-            else if (a >= 13 & a <= 18)
-                temp1[a + 2] = 'B';
-            else if (a >= 19 & a <= 24)
-                temp1[a + 3] = 'B';
-            else if (a >= 25 & a <= 30)
-                temp1[a + 4] = 'B';
-            else if (a >= 31 & a <= 36)
-                temp1[a + 5] = 'B';
-            else if (a >= 37 & a <= 42)
-                temp1[a + 6] = 'B';
-            else if (a >= 43 & a <= 48)
-                temp1[a + 7] = 'B';
+            SeatsUpdation(a);
 
-            complete_layout = String.valueOf(temp1);
-            //            temp.setText(complete_layout);
-            //            complete_lay = complete_layout;
-        } else if ((int) view.getTag() == STATUS_BOOKED)
-            Toast.makeText(this, "Seat " + view.getId() + " is Booked", Toast.LENGTH_SHORT).show();
+        } else if ((int) view.getTag() == STATUS_BOOKED) {
+            if (flag == 1) {
+                Toast.makeText(this, "Seat " + view.getId() + " is Booked \n Click again to delete the Spot", Toast.LENGTH_SHORT).show();
+                flag = flag + 1;
+            } else if (flag == 2) {
+                view.setBackgroundResource(R.drawable.unselected_parking);
+                view.setTag(1);
+                Toast.makeText(this, "Seat " + view.getId() + " is Deleted", Toast.LENGTH_SHORT).show();
+                flag = 1;
+            }
+        }
     }
+
+    //    private void getOwnerNo() {
+//        final DatabaseReference userNo = ref.child("OwnerInfo");
+//        userNo.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                noOwner = dataSnapshot.getChildrenCount();
+//                final DatabaseReference update_Layout = ref.child("OwnerInfo").child(String.valueOf(noOwner)).child("layout1");
+//                update_Layout.setValue(complete_layout);
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        });
+//    }
+    private void SeatsUpdation(int a) {
+        char[] temp1 = complete_layout.toCharArray();
+        if (a >= 1 & a <= 6)
+            temp1[a] = 'B';
+        else if (a >= 7 & a <= 12)
+            temp1[a + 1] = 'B';
+        else if (a >= 13 & a <= 18)
+            temp1[a + 2] = 'B';
+        else if (a >= 19 & a <= 24)
+            temp1[a + 3] = 'B';
+        else if (a >= 25 & a <= 30)
+            temp1[a + 4] = 'B';
+        else if (a >= 31 & a <= 36)
+            temp1[a + 5] = 'B';
+        else if (a >= 37 & a <= 42)
+            temp1[a + 6] = 'B';
+        else if (a >= 43 & a <= 48)
+            temp1[a + 7] = 'B';
+        complete_layout = String.valueOf(temp1);
+    }
+
 }

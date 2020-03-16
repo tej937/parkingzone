@@ -314,7 +314,7 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
             finish();
             return true;
         } else if (id == R.id.payment) {
-            Intent intent = new Intent(UserProfile.this, PaymentMethod.class);
+            Intent intent = new Intent(UserProfile.this, PaymentsOption.class);
             startActivity(intent);
             finish();
             return true;

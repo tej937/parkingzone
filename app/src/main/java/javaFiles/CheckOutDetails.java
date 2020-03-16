@@ -11,8 +11,13 @@ public class CheckOutDetails {
     String current_date;
     String final_time;
     String plate_no;
+    String address;
+    String place_name;
+    int seatNo;
 
-    public CheckOutDetails(String location, String start_time, String end_time, String parking_slot, String total_amount, String payment_status, String current_date, String final_time, String plate_no) {
+    public CheckOutDetails(String location, String start_time, String end_time, String parking_slot,
+                           String total_amount, String payment_status, String current_date, String final_time,
+                           String plate_no, String address, String place_name) {
         this.location = location;
         this.start_time = start_time;
         this.end_time = end_time;
@@ -22,9 +27,35 @@ public class CheckOutDetails {
         this.current_date = current_date;
         this.final_time = final_time;
         this.plate_no = plate_no;
+        this.address = address;
+        this.place_name = place_name;
+    }
+
+    public int getSeatNo() {
+        return seatNo;
+    }
+
+    public void setSeatNo(int seatNo) {
+        this.seatNo = seatNo;
     }
 
     public CheckOutDetails() {
+    }
+
+    public String getPlace_name() {
+        return place_name;
+    }
+
+    public void setPlace_name(String place_name) {
+        this.place_name = place_name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPlate_no() {

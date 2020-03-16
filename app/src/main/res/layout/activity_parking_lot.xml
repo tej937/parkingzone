@@ -118,10 +118,10 @@
 
         </LinearLayout>
     </RelativeLayout>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:id="@+id/slots_layout" />
         <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -168,7 +168,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cost for \n30 mins : 10rs"
+                        android:text="Cost for \n30 mins : 5rs"
                         android:textSize="17sp"
                         android:padding="10dp"
                         android:textColor="@color/White"

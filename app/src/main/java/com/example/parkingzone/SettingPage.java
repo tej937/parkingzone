@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,8 +30,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Arrays;
+
 import javaFiles.NewCar;
 import javaFiles.NewUser;
+import javaFiles.Ratings;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class SettingPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout mDraw;
@@ -39,13 +44,12 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
     Dialog myDialog;
     View headerView;
 
-    RelativeLayout profilePageOpener;
+    RelativeLayout profilePageOpener, FAQ_page, TnC_page, feedBack_page;
     TextView username,phone_number;
 
     NewUser newUser;
     NewCar newCar;
-    SwitchCompat darkMode;
-
+    SwitchCompat darkMode, notification;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
@@ -58,6 +62,8 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
         initialise();
         retrieveData();
         retrieveCarData();
+
+
         profilePageOpener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +71,6 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
                 finish();
             }
         });
-
         darkMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -75,7 +80,63 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
                 }
             }
         });
-
+        FAQ_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SettingPage.this, FAQ_Page.class));
+                finish();
+            }
+        });
+        TnC_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(SettingPage.this, "No terms and condition for you lovely people", Toast.LENGTH_SHORT).show();
+            }
+        });
+        feedBack_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.setContentView(R.layout.feedback_layout);
+                myDialog.show();
+                MaterialRatingBar ratingBar;
+                final Button submit;
+                final EditText feedback;
+                TextView feedback_text;
+                //final float[] ratingStar = {(float) 0.0};
+                final String[] rating1 = new String[1];
+                ratingBar = myDialog.findViewById(R.id.rating);
+                feedback_text = myDialog.findViewById(R.id.feedback);
+                submit = myDialog.findViewById(R.id.submit);
+                feedback = myDialog.findViewById(R.id.feedback_edit);
+                ratingBar.setOnRatingChangeListener(new MaterialRatingBar.OnRatingChangeListener() {
+                    @Override
+                    public void onRatingChanged(MaterialRatingBar ratingBar, float rating) {
+                        rating1[0] = String.valueOf(rating);
+                    }
+                });
+                feedback_text.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        submit.setVisibility(View.VISIBLE);
+                        feedback.setVisibility(View.VISIBLE);
+                        submit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Ratings rating = new Ratings();
+                                rating.setRating(Arrays.toString(rating1));
+                                rating.setComments(feedback.getText().toString());
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                final DatabaseReference usersRef = ref.child("Rating").child("Rating Details").child(user.getUid());
+                                usersRef.setValue(rating);
+                                Toast.makeText(SettingPage.this, "Thank you for Feedback", Toast.LENGTH_SHORT).show();
+                                myDialog.dismiss();
+                            }
+                        });
+                    }
+                });
+                Toast.makeText(SettingPage.this, "Please Give nice ratings", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     private void initialise() {
         mDraw = (DrawerLayout)findViewById(R.id.drawer);
@@ -88,12 +149,16 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
         navigationView.setNavigationItemSelectedListener(this);
         myDialog = new Dialog(this);
 
+        FAQ_page = findViewById(R.id.faq_layout);
+        feedBack_page = findViewById(R.id.question_layout);
+        TnC_page = findViewById(R.id.tnc_layout);
         username = (TextView) findViewById(R.id.username);
         phone_number = (TextView) findViewById(R.id.phone_number);
         profilePageOpener = (RelativeLayout) findViewById(R.id.profile_page);
         newUser = new NewUser();
         newCar = new NewCar();
         darkMode = findViewById(R.id.drive);
+        notification = findViewById(R.id.notification);
 
 
         ActionBar actionBar = getSupportActionBar();
@@ -168,7 +233,7 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
             finish();
             return true;
         } else if (id == R.id.payment) {
-            Intent intent = new Intent(SettingPage.this, PaymentMethod.class);
+            Intent intent = new Intent(SettingPage.this, PaymentsOption.class);
             startActivity(intent);
             finish();
             return true;

@@ -9,7 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,7 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import javaFiles.NewCar;
+import javaFiles.NewOwner;
 import javaFiles.NewUser;
 
 public class SettingOwnerPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,10 +42,13 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
     View headerView;
 
     NewUser newUser;
-    NewCar newCar;
-    RelativeLayout profilePageOpener;
-    TextView username, phone_number, opened, closed;
+    NewOwner newOwner;
+    ElegantNumberButton elegantNumberButton;
+    TextView username, phone_number, closed, admin_name, tnc_text;
+    EditText admin;
+    ImageView tnc;
     SwitchCompat status, dark_Mode;
+    Button button;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
@@ -57,17 +62,44 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
         initiate();
         retrieveData();
         retrieveCarData();
-        checkActiveStatus();
+
+        admin_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin_name.setVisibility(View.GONE);
+                tnc_text.setVisibility(View.GONE);
+                tnc.setVisibility(View.GONE);
+                admin.setVisibility(View.VISIBLE);
+                button.setVisibility(View.VISIBLE);
+            }
+        });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (admin.getText().toString().isEmpty()) {
+                    admin.setError("Please enter the admin name");
+                } else {
+                    admin_name.setVisibility(View.VISIBLE);
+                    tnc_text.setVisibility(View.VISIBLE);
+                    tnc.setVisibility(View.VISIBLE);
+                    admin_name.setText(admin.getText().toString());
+                    admin.setVisibility(View.GONE);
+                    button.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
         status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    opened.setVisibility(View.VISIBLE);
-                    closed.setVisibility(View.GONE);
+                    closed.setText("Opened");
                     flag = 1;
+                    checkActiveStatus();
                 } else {
-                    opened.setVisibility(View.GONE);
-                    closed.setVisibility(View.VISIBLE);
+                    closed.setText("Closed");
                 }
             }
         });
@@ -80,6 +112,7 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
                 }
             }
         });
+
     }
 
     private void initiate() {
@@ -100,13 +133,18 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
         username = (TextView) findViewById(R.id.username);
         phone_number = (TextView) findViewById(R.id.phone_number);
         closed = findViewById(R.id.closed);
-        opened = findViewById(R.id.opened);
         status = findViewById(R.id.status_switch);
         dark_Mode = findViewById(R.id.dark);
+        elegantNumberButton = findViewById(R.id.slots);
+        admin_name = findViewById(R.id.admin_name);
+        tnc_text = findViewById(R.id.question_text);
+        tnc = findViewById(R.id.tnc);
+        button = findViewById(R.id.submit);
+        admin = findViewById(R.id.admin_name_edit);
+
 
         newUser = new NewUser();
-        newCar = new NewCar();
-
+        newOwner = new NewOwner();
     }
 
     private void checkActiveStatus() {
@@ -137,7 +175,6 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
             });
         }
     }
-
     private void retrieveData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -159,17 +196,16 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
             });
         }
     }
-
     private void getDataFromFirebase(DataSnapshot dataSnapshot) {
         newUser.setPhone((String) dataSnapshot.child("phone").getValue());
         phone_number.setText(newUser.getPhone());
     }
-
     private void getCarDataFromFirebase(DataSnapshot dataSnapshot) {
-        newCar.setName((String) dataSnapshot.child("parking_name").getValue());
-        username.setText(newCar.getName());
+        newOwner.setParking_name((String) dataSnapshot.child("parking_name").getValue());
+        newOwner.setSlots((String) dataSnapshot.child("slots").getValue());
+        username.setText(newOwner.getParking_name());
+        elegantNumberButton.setNumber(newOwner.getSlots());
     }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
@@ -180,11 +216,6 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
             return true;
         } else if (id == R.id.setting) {
             Intent intent = new Intent(SettingOwnerPage.this, SettingOwnerPage.class);
-            startActivity(intent);
-            finish();
-            return true;
-        } else if (id == R.id.payment) {
-            Intent intent = new Intent(SettingOwnerPage.this, TransactionPage.class);
             startActivity(intent);
             finish();
             return true;
@@ -226,7 +257,6 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
         } else
             return false;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mToggle.onOptionsItemSelected(item)) {

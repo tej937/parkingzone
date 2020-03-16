@@ -24,7 +24,7 @@
             android:padding="5dp"
             android:text="Raghuleela Mall"
             android:textColor="#ff3366"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <TextView
@@ -32,10 +32,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/mall_name"
-            android:layout_centerInParent="true"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:text="Ville Parle"
             android:textColor="#ff3366"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
         <!--        <TextView-->
         <!--            android:layout_width="wrap_content"-->

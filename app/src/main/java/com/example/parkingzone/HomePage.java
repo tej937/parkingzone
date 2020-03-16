@@ -1,18 +1,21 @@
 package com.example.parkingzone;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -47,13 +50,17 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     HorizontalScrollView news_layout, parking_layout;
     RelativeLayout news1, news2, news3, news4;
     TextView text3, text4;
-
+    Spinner userArea;
+    int flag;
     RecyclerView recyclerView;
     TextView textView;
     ArrayList<NewOwner> list;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
     Owner_Adapters owner_adapters;
+    ProgressDialog progressDialog;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,30 +68,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         setContentView(R.layout.activity_home_page);
         initialise();
         checkDetails();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            final DatabaseReference reference = ref.child("OwnerInfo");
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                            NewOwner newOwner = dataSnapshot1.getValue(NewOwner.class);
-                            list.add(newOwner);
-                        }
-                        owner_adapters = new Owner_Adapters(HomePage.this, list);
-                        recyclerView.setAdapter(owner_adapters);
-                    } else {
-                        textView.setVisibility(View.VISIBLE);
-                        Toast.makeText(HomePage.this, "Ooops Sorry !!!!!!!!", Toast.LENGTH_SHORT).show();
-                    }
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
-        }
+
 
     update_profile.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -129,13 +114,25 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             startActivity(i);
         }
     });
-//    first_attempt.setOnClickListener(new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            startActivity(new Intent(HomePage.this,ParkingLot.class));
-//            finish();
-//        }
-//    });
+
+        userArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Toast.makeText(HomePage.this, ""+position, Toast.LENGTH_SHORT).show();
+                if (position == 0) {
+                    textView.setVisibility(View.VISIBLE);
+                    textView.setText("Please select an area to park");
+                } else {
+                    textView.setVisibility(View.GONE);
+                    //list.clear();
+                    checkParkingPlaces();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     private void checkDetails() {
@@ -144,8 +141,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         check_details.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists())
-                    Toast.makeText(HomePage.this, "All required data uploaded", Toast.LENGTH_SHORT).show();
+                if (dataSnapshot.exists() & dataSnapshot.getChildrenCount() == 4)
+                    Log.d("Data Updated", "Yess All data exists");
                 else{
                     main_layout.setVisibility(View.GONE);
                     parking_layout.setVisibility(View.GONE);
@@ -155,9 +152,45 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     update_layout.setVisibility(View.VISIBLE);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    public void checkParkingPlaces() {
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+        final DatabaseReference reference = ref.child(userArea.getSelectedItem().toString()).child("OwnerInfo");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                list.clear();
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        NewOwner newOwner = dataSnapshot1.getValue(NewOwner.class);
+                        list.add(newOwner);
+                    }
+                    owner_adapters = new Owner_Adapters(HomePage.this, list);
+                    recyclerView.setAdapter(owner_adapters);
+                    progressDialog.dismiss();
+                    textView.setVisibility(View.GONE);
+                } else {
+                    list.clear();
+                    owner_adapters = new Owner_Adapters(HomePage.this, list);
+                    recyclerView.setAdapter(owner_adapters);
+                    textView.setVisibility(View.VISIBLE);
+                    textView.setText("No parking available");
+                    //Toast.makeText(HomePage.this, "Ooops Sorry !!!!!!!!", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+                //list.clear();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
@@ -184,6 +217,13 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         parking_layout = findViewById(R.id.parking_layout);
         text3 = findViewById(R.id.text3);
         text4 = findViewById(R.id.text4);
+        userArea = findViewById(R.id.search);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Checking with Area..."); // Setting Message
+        progressDialog.setTitle("Please Wait"); // Setting Title
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// Progress Dialog Style Spinner
+
 
         ref.keepSynced(true);
         recyclerView = findViewById(R.id.recyclerview);
@@ -193,7 +233,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         textView = findViewById(R.id.no_booking);
 
         //first_attempt = (RelativeLayout) findViewById(R.id.first_attempt);
-
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.Black)));
         actionBar.setTitle("Park Zone");
@@ -213,7 +252,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             finish();
             return true;
         } else if (id == R.id.payment) {
-            Intent intent = new Intent(HomePage.this, PaymentMethod.class);
+            Intent intent = new Intent(HomePage.this, PaymentsOption.class);
             startActivity(intent);
             finish();
             return true;

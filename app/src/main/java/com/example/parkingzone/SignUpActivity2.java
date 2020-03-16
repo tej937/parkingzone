@@ -25,11 +25,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -37,6 +34,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javaFiles.CheckOutDetails;
 import javaFiles.NewCar;
 
 public class SignUpActivity2 extends AppCompatActivity {
@@ -55,6 +53,7 @@ public class SignUpActivity2 extends AppCompatActivity {
     Button register;
     Uri filepath;
     NewCar newCar;
+    CheckOutDetails checkOutDetails;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
     private long noUser = 0;
@@ -65,7 +64,7 @@ public class SignUpActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up2);
         initialise();
-        getUserNo();
+        //getUserNo();
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         back.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +113,7 @@ public class SignUpActivity2 extends AppCompatActivity {
                     if(user!=null){
                         final DatabaseReference usersRef = ref.child("Parker").child(user.getUid()).child("Vehicle Details");
                         usersRef.setValue(newCar);
-                        saveDataToRespectiveNumber(newCar);
+                        //saveDataToRespectiveNumber(newCar);
                         startActivity(new Intent(SignUpActivity2.this,HomePage.class));
                         finish();
                         Toast.makeText(SignUpActivity2.this, "New Car Added", Toast.LENGTH_SHORT).show();
@@ -124,24 +123,24 @@ public class SignUpActivity2 extends AppCompatActivity {
         });
     }
 
-    private void saveDataToRespectiveNumber(NewCar newCar) {
-        final DatabaseReference users = ref.child("Users").child(String.valueOf(noUser));
-        users.setValue(newCar);
-    }
+//    private void saveDataToRespectiveNumber(NewCar newCar) {
+//        final DatabaseReference users = ref.child("Users").child(String.valueOf(noUser));
+//        users.setValue(newCar);
+//    }
+//
+//    private void getUserNo() {
+//        final DatabaseReference userNo = ref.child("User");
+//        userNo.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                noUser = dataSnapshot.getChildrenCount();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        });}
 
-    private void getUserNo() {
-        final DatabaseReference userNo = ref.child("User");
-        userNo.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                noUser = dataSnapshot.getChildrenCount();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

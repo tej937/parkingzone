@@ -79,6 +79,7 @@
                 android:backgroundTint="#ff3366"
                 android:inputType="textMultiLine"
                 android:lines="8"
+                android:id="@+id/address_edit"
                 android:maxLines="10"
                 android:minLines="6"
                 android:scrollbars="vertical"
@@ -127,8 +128,7 @@
             android:entries="@array/area"
             android:padding="15dp"
             android:id="@+id/area"
-            android:spinnerMode="dropdown"
-            ></Spinner>
+            android:spinnerMode="dropdown" />
         <!--Contact-->
 <!--        <TextView-->
 <!--            android:layout_width="wrap_content"-->
@@ -177,11 +177,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="100dp"
                 android:backgroundTint="#ff3366"
                 android:layout_below="@+id/area"
-                android:layout_marginEnd="148dp"
-                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@id/time"
                 android:layout_marginTop="30dp"
                 android:text="00:00"
                 android:textSize="25sp"
@@ -191,24 +190,35 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="-"
+           android:layout_marginStart="10dp"
            android:textSize="22sp"
            android:textColor="@color/White"
            android:textStyle="bold"
-           android:layout_below="@id/area"
            android:layout_marginTop="30dp"
-           android:layout_marginStart="280dp"/>
+           android:layout_below="@id/area"
+           android:layout_toEndOf="@id/stime" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#ff3366"
                 android:layout_below="@+id/area"
-                android:layout_marginEnd="40dp"
-                android:layout_alignParentEnd="true"
+                android:layout_marginStart="25dp"
+                android:layout_toEndOf="@id/stime"
                 android:layout_marginTop="30dp"
                 android:textSize="25sp"
                 android:text="00:00"
                 android:id="@+id/etime"
                 android:textColor="@color/White" />
+
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/stime"
+            android:layout_centerHorizontal="true"
+            android:text="Please Set time difference properly"
+            android:textColor="#ff3366"
+            android:textSize="18sp"
+            android:visibility="gone" />
         <!---->
         <TextView
             android:layout_width="wrap_content"

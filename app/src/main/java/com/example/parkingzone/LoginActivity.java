@@ -196,10 +196,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
             });
-        }else {
-            Toast.makeText(this, "U selected Login as User \nPlease select Login as Owner\nin previous page", Toast.LENGTH_SHORT).show();
-        }
-        if(flag == 2) {
+        } else if (flag == 2) {
                 DatabaseReference check_owner = ref.child("Owner").child(user.getUid()).child("Owner Details");
                 check_owner.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -214,8 +211,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
-            }else {
-            Toast.makeText(this, "U selected Login as Owner \nPlease select Login as User\nin previous page", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Noone found with given credential", Toast.LENGTH_SHORT).show();
         }
     }
 

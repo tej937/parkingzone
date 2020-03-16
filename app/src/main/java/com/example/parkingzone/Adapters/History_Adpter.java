@@ -36,6 +36,7 @@ public class History_Adpter extends RecyclerView.Adapter<History_Adpter.MyViewHo
         holder.date_time.setText(checkOutDetails.get(position).getCurrent_date());
         holder.final_time.setText(checkOutDetails.get(position).getFinal_time());
         holder.amount.setText(checkOutDetails.get(position).getTotal_amount());
+        holder.location.setText(checkOutDetails.get(position).getLocation());
     }
 
     @Override
@@ -45,13 +46,14 @@ public class History_Adpter extends RecyclerView.Adapter<History_Adpter.MyViewHo
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView date_time, final_time, amount;
+        TextView date_time, final_time, amount, location;
 
         MyViewHolder(View itemView) {
             super(itemView);
             date_time = itemView.findViewById(R.id.time);
             final_time = itemView.findViewById(R.id.final_time);
             amount = itemView.findViewById(R.id.amount);
+            location = itemView.findViewById(R.id.location);
         }
     }
 }

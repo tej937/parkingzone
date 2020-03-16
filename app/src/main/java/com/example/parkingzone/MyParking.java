@@ -116,7 +116,7 @@ public class MyParking extends AppCompatActivity implements NavigationView.OnNav
             finish();
             return true;
         } else if (id == R.id.payment) {
-            Intent intent = new Intent(MyParking.this, PaymentMethod.class);
+            Intent intent = new Intent(MyParking.this, PaymentsOption.class);
             startActivity(intent);
             finish();
             return true;

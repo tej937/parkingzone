@@ -11,9 +11,19 @@
     <string name="news3"><u>Mumbai Most Traffic \nCongested City In \nThe World,Delhi \nAt Fourth</u></string>
     <string name="news4"><u>Read More</u></string>
     <string name="api_key">AIzaSyAGIsVpEc2y_Zd26a60l5vfeyxsXYpjk88</string>
-    <string name="googlepay_status_unavailable" translatable="false">Unfortunately, Google Pay is not available on this phone.</string>
-    <string name="googlepay_status_checking" translatable="false">Checking if Google Pay is available...</string>
-    <string name="payments_show_name" translatable="false">Successfully received payment data for %s!</string>
+    <string name="TnC">This transaction cannot be cancelled\n as per Parking Policy</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="end_parking">End Parking</string>
+
+
     <string-array name="number">
         <item>6</item>
         <item>12</item>
@@ -29,7 +39,7 @@
     <string-array name="area">
         <item>Andheri</item>
         <item>Ville Parle</item>
-        <item>Santacruze</item>
+        <item>Central Mall Nashik</item>
         <item>Bandra</item>
         <item>D N Nagar</item>
         <item>Jogeshwari</item>
@@ -38,5 +48,41 @@
         <item>Khar Road</item>
         <item>Mithibai College</item>
     </string-array>
+
+    <string-array name="userArea">
+        <item>Please select an area to Park</item>
+        <item>Andheri</item>
+        <item>Ville Parle</item>
+        <item>Central Mall Nashik</item>
+        <item>Bandra</item>
+        <item>D N Nagar</item>
+        <item>Jogeshwari</item>
+        <item>Goregaon</item>
+        <item>Saki Naka</item>
+        <item>Khar Road</item>
+        <item>Mithibai College</item>
+    </string-array>
+    <string name="ques1">What payment options are enabled?</string>
+    <string name="ans1">We tried to focus on Digital india and
+        have tried to implement Online transaction portals like
+        Gpay, Paypal. and UPI payments. But for who doesn\'t have active
+        Digital transaction we have also given an option to Pay at Counter.</string>
+
+
+    <string name="ques2">How will my car stay safe?</string>
+    <string name="ans2">We have tried to get in contact with only those
+        parking owner who are trustworthy and have good security protocol
+        to keep the parking car safe.</string>
+
+    <string name="ques3">Can I contact the admin for further details if I would like do?</string>
+    <string name="ans3">Due to privacy reasons to keep data confidential
+    we are not sharing the contact details about the admin.
+    But still if u want to contact please submit your query in feedback section
+    we will definitely get back to you as soon as possible.</string>
+
+    <string name="ques4">How many vehicles can i sign up and/or park in the arae?</string>
+    <string name="ans4">For now you can only one vehicle in an area at a time for one
+    sign up. But in case if you want to book parking lot for an event or function,
+    Let us know in feedback section we will get back to you and arrange your event.</string>
 
 </resources>

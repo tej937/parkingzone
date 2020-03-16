@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/head_layout"
                     android:layout_marginTop="15dp"
-                    android:padding="20dp"
+                    android:padding="15dp"
                     android:text="Booking in Progress"
                     android:textColor="#ff3366"
                     android:textSize="25sp"
@@ -99,28 +99,28 @@
                 <HorizontalScrollView
                     android:id="@+id/progress_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/text1"
-                    android:layout_marginTop="25dp">
-                    <!--                <LinearLayout-->
-                    <!--                android:layout_width="wrap_content"-->
-                    <!--                android:layout_height="wrap_content">-->
-                    <!--                    <TextView-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:text="start time"-->
-                    <!--                        android:textColor="#ff3366"-->
-                    <!--                        android:textSize="18sp"-->
-                    <!--                        />-->
-                    <!--        </LinearLayout>-->
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text1">
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
+                        <TextView
+                            android:id="@+id/no_booking"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="No Request Found"
+                            android:textColor="#ff3366"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerview"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+                            android:layout_height="wrap_content">
+
+                        </androidx.recyclerview.widget.RecyclerView>
                     </RelativeLayout>
                 </HorizontalScrollView>
                 <!--            Parking Layout-->
@@ -183,14 +183,6 @@
                         android:textStyle="bold" />
                 </LinearLayout>
                 <!--            Temporary-->
-                <TextView
-                    android:id="@+id/temp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="."
-                    android:textColor="#ff3366"
-
-                    android:textSize="20sp" />
                 <!--            Temporary-->
                 <TextView
                     android:id="@+id/temp1"
@@ -206,7 +198,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/temp1"
-                    android:orientation="vertical"></LinearLayout>
+                    android:orientation="vertical">
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/book_spot"
@@ -224,6 +218,7 @@
                     android:textSize="17sp" />
 
                 <Button
+                    android:visibility="gone"
                     android:id="@+id/delete_spot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -251,5 +246,7 @@
         app:headerLayout="@layout/drawable_layout"
         app:itemIconTint="@color/White"
         app:itemTextColor="@color/White"
-        app:menu="@menu/owner_menu"></com.google.android.material.navigation.NavigationView>
+        app:menu="@menu/owner_menu">
+
+    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -23,11 +23,14 @@ public class Owner_Adapters extends RecyclerView.Adapter<Owner_Adapters.MyViewHo
     private ArrayList<NewOwner> newOwners;
     private String layout;
     private String nam;
+    private String address;
 
 
     public Owner_Adapters(Context context, ArrayList<NewOwner> newOwners) {
         this.context = context;
         this.newOwners = newOwners;
+        setHasStableIds(true);
+
     }
 
     @NonNull
@@ -50,6 +53,7 @@ public class Owner_Adapters extends RecyclerView.Adapter<Owner_Adapters.MyViewHo
                 Intent intent = new Intent(context, ParkingLot.class);
                 intent.putExtra("layout", layout);
                 intent.putExtra("position", String.valueOf(position + 1));
+                intent.putExtra("area", newOwners.get(position).getArea());
                 context.startActivity(intent);
             }
         });
@@ -67,6 +71,7 @@ public class Owner_Adapters extends RecyclerView.Adapter<Owner_Adapters.MyViewHo
 
         MyViewHolder(View itemView) {
             super(itemView);
+
             context = itemView.getContext();
             mall_name = itemView.findViewById(R.id.mall_name);
             location_name = itemView.findViewById(R.id.mall_location);
