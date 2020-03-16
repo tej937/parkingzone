@@ -190,7 +190,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/help"
                     android:text="."
-                    android:textColor="#ff3366"
+                    android:textColor="@color/Black"
                     android:textSize="20sp" />
 
                 <LinearLayout

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -59,9 +60,9 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
     int STATUS_SELECTED = 2;
     int STATUS_BOOKED = 3;
     String selectedIds = "";
-    //private long noOwner;
+    private long noOwner;
     int flag = 1;
-
+   
     // int[] arr;
     //int flag = 0;
 
@@ -92,6 +93,7 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
         setContentView(R.layout.activity_owner_home_page);
         initialise();
         retrieveData();
+        getOwnerNo();
         //displayLayout();
         //constructString();
 
@@ -117,7 +119,8 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
         if (user != null) {
             final DatabaseReference usersRef = ref.child("Owner").child(user.getUid()).child("Parking Details").child("layout1");
             usersRef.setValue(complete_layout);
-            final DatabaseReference update_Layout = ref.child("OwnerInfo").child(user.getUid()).child("layout1");
+            Log.d("Tejas", "A" + tem.getText().toString());
+            final DatabaseReference update_Layout = ref.child(tem.getText().toString()).child("OwnerInfo").child(String.valueOf(noOwner + 1)).child("layout1");
             update_Layout.setValue(complete_layout);
             progressDialog = new ProgressDialog(OwnerHomePage.this);
             progressDialog.setMessage("Updating Layout..."); // Setting Message
@@ -175,14 +178,15 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
         newOwner.setSlots((String) dataSnapshot.child("slots").getValue());
         newOwner.setAddress((String) dataSnapshot.child("address").getValue());
         newOwner.setParking_name((String) dataSnapshot.child("parking_name").getValue());
+        newOwner.setArea((String) dataSnapshot.child("area").getValue());
         textView1.setText(newOwner.getParking_name());
+        tem.setText(newOwner.getArea());
         getRequest();
         complete_layout = newOwner.getLayout1();
         displayLayout();
     }
-
     private void getRequest() {
-        final DatabaseReference reference = ref.child(newOwner.getAddress()).child("Request Generated");
+        final DatabaseReference reference = ref.child(newOwner.getParking_name()).child("Request Generated");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -206,20 +210,37 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
         });
 
     }
-
     private void displayRequest() {
         final Button confirm;
         TextView text;
         myDialog.setContentView(R.layout.request_layout);
         confirm = myDialog.findViewById(R.id.yess);
         text = myDialog.findViewById(R.id.question_text);
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
         text.setText("You have a parking request at " + checkOutDetails.getSeatNo() + ". Please confirm request if available");
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SeatsUpdation(checkOutDetails.getSeatNo());
                 saveNewSeat();
+                DatabaseReference deleteRequest = ref.child(textView1.getText().toString());
+                deleteRequest.removeValue();
                 myDialog.dismiss();
+            }
+        });
+    }
+
+    private void getOwnerNo() {
+        final DatabaseReference userNo = ref.child(textView1.getText().toString()).child("OwnerInfo");
+        userNo.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                noOwner = dataSnapshot.getChildrenCount();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
@@ -255,7 +276,6 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
         list = new ArrayList<CheckOutDetails>();
-        textView = findViewById(R.id.no_booking);
         textView1 = findViewById(R.id.text2);
     }
 
@@ -462,20 +482,7 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
         }
     }
 
-    //    private void getOwnerNo() {
-//        final DatabaseReference userNo = ref.child("OwnerInfo");
-//        userNo.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                noOwner = dataSnapshot.getChildrenCount();
-//                final DatabaseReference update_Layout = ref.child("OwnerInfo").child(String.valueOf(noOwner)).child("layout1");
-//                update_Layout.setValue(complete_layout);
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//            }
-//        });
-//    }
+
     private void SeatsUpdation(int a) {
         char[] temp1 = complete_layout.toCharArray();
         if (a >= 1 & a <= 6)

@@ -269,7 +269,7 @@ public class ParkingLot extends AppCompatActivity implements View.OnClickListene
                     if (user != null) {
                         final DatabaseReference usersRef = ref.child("New Booking").child(user.getUid()).child(String.valueOf(maxId + 1));
                         usersRef.setValue(checkOutDetails);
-                        final DatabaseReference request = ref.child(newOwner.getAddress()).child("Request Generated").child(user.getUid());
+                        final DatabaseReference request = ref.child(newOwner.getParking_name()).child("Request Generated").child(user.getUid());
                         request.setValue(checkOutDetails);
                         startActivity(new Intent(ParkingLot.this, CheckOutPage.class));
                         timeDialog.dismiss();

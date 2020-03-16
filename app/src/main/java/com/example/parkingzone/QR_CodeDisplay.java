@@ -271,7 +271,7 @@ public class QR_CodeDisplay extends AppCompatActivity {
                 HashMap<String, Object> result = new HashMap<>();
                 result.put("payment_status", "Success");
                 usersRef.updateChildren(result);
-                final DatabaseReference request = ref.child(address.getText().toString()).child("Request Generated").child(user.getUid());
+                final DatabaseReference request = ref.child(checkOutDetails.getPlace_name()).child("Request Generated").child(user.getUid());
                 request.updateChildren(result);
                 new Thread() {
                     @Override
