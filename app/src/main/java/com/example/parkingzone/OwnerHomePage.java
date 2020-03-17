@@ -62,7 +62,7 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
     String selectedIds = "";
     private long noOwner;
     int flag = 1;
-   
+
     // int[] arr;
     //int flag = 0;
 
@@ -224,6 +224,7 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 SeatsUpdation(checkOutDetails.getSeatNo());
                 saveNewSeat();
+
                 DatabaseReference deleteRequest = ref.child(textView1.getText().toString());
                 deleteRequest.removeValue();
                 myDialog.dismiss();

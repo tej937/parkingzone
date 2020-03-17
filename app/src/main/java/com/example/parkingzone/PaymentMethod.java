@@ -51,7 +51,7 @@ public class PaymentMethod extends AppCompatActivity implements NavigationView.O
     private static PayPalConfiguration configuration = new PayPalConfiguration()
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
             .clientId(Constants.Pay_pal_ID);
-    RelativeLayout paypalButton, gpayButton;
+    RelativeLayout paypalButton, gpayButton, cod;
     String total_amount;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
@@ -121,6 +121,13 @@ public class PaymentMethod extends AppCompatActivity implements NavigationView.O
                 retrieveData();
             }
         });
+        cod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PaymentMethod.this, QR_CodeDisplay.class).putExtra("flag", "2"));
+                Toast.makeText(PaymentMethod.this, "Please pay at Counter", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initialise() {
@@ -135,6 +142,7 @@ public class PaymentMethod extends AppCompatActivity implements NavigationView.O
         myDialog = new Dialog(this);
         checkOutDetails = new CheckOutDetails();
         paypalButton = findViewById(R.id.method1);
+        cod = findViewById(R.id.method4);
 //        mGooglePayButton = findViewById(R.id.googlepay_button);
 //        mGooglePayStatusText = findViewById(R.id.googlepay_status);
 
@@ -350,8 +358,6 @@ public class PaymentMethod extends AppCompatActivity implements NavigationView.O
             Toast.makeText(this, "Result Code didnt match " + requestCode + "and" + resultCode, Toast.LENGTH_LONG).show();
         }
     }
-
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();

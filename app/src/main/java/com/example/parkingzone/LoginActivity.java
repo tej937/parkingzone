@@ -1,11 +1,8 @@
 package com.example.parkingzone;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,9 +30,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
-    TextInputLayout email, pass;
+    TextInputLayout email, pass, forgot_mail;
     Button Login,forgot_Button;
     ImageView back;
+    RelativeLayout forgotLayout, loginLayout;
+
     TextView nonexisting,forgot,forgot_Text,goback;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
@@ -68,50 +67,32 @@ public class LoginActivity extends AppCompatActivity {
         forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pass.setVisibility(View.GONE);
-                nonexisting.setVisibility(View.GONE);
-                forgot.setVisibility(View.GONE);
-                Login.setVisibility(View.GONE);
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                params.topMargin = convertPixelsToDp(1000,LoginActivity.this);
-                params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                email.setLayoutParams(params);
-                forgot_Text.setVisibility(View.VISIBLE);
-                forgot_Button.setVisibility(View.VISIBLE);
-                goback.setVisibility(View.VISIBLE);
+                forgotLayout.setVisibility(View.VISIBLE);
+                loginLayout.setVisibility(View.GONE);
                 goback.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        pass.setVisibility(View.VISIBLE);
-                        nonexisting.setVisibility(View.VISIBLE);
-                        forgot.setVisibility(View.VISIBLE);
-                        Login.setVisibility(View.VISIBLE);
-                        forgot_Text.setVisibility(View.GONE);
-                        forgot_Button.setVisibility(View.GONE);
-                        goback.setVisibility(View.GONE);
+                        forgotLayout.setVisibility(View.GONE);
+                        loginLayout.setVisibility(View.VISIBLE);
                     }
                 });
                 forgot_Button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(TextUtils.isEmpty(email.getEditText().getText().toString().trim())) email.setError("Please enter Registered Mail ID");
-                        else if(!validateEmail(email.getEditText().getText().toString().trim())) email.setError("Please Enter a valid mail ID");
+                        if (TextUtils.isEmpty(forgot_mail.getEditText().getText().toString().trim()))
+                            forgot_mail.setError("Please enter Registered Mail ID");
+                        else if (!validateEmail(forgot_mail.getEditText().getText().toString().trim()))
+                            forgot_mail.setError("Please Enter a valid mail ID");
                         else{
-                            email.setError(null);
-                            mAuth.sendPasswordResetEmail(email.getEditText().getText().toString().trim())
+                            forgot_mail.setError(null);
+                            mAuth.sendPasswordResetEmail(forgot_mail.getEditText().getText().toString().trim())
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()) {
                                                 Toast.makeText(LoginActivity.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
-                                                pass.setVisibility(View.VISIBLE);
-                                                nonexisting.setVisibility(View.VISIBLE);
-                                                forgot.setVisibility(View.VISIBLE);
-                                                Login.setVisibility(View.VISIBLE);
-                                                forgot_Text.setVisibility(View.GONE);
-                                                forgot_Button.setVisibility(View.GONE);
-                                                goback.setVisibility(View.GONE);
-
+                                                forgotLayout.setVisibility(View.GONE);
+                                                loginLayout.setVisibility(View.VISIBLE);
                                             }else
                                                 Toast.makeText(LoginActivity.this, "Failed to send reset email, Please enter registered Mail ID!", Toast.LENGTH_SHORT).show();
                                         }
@@ -228,6 +209,11 @@ public class LoginActivity extends AppCompatActivity {
         goback = (TextView) findViewById(R.id.go_back);
         back = (ImageView) findViewById(R.id.back);
 
+        forgotLayout = findViewById(R.id.forgot_layout);
+        loginLayout = findViewById(R.id.login_layout);
+        forgot_mail = findViewById(R.id.forgot_mail_id);
+
+
     }
 
     private boolean validateEmail(String mail) {
@@ -247,12 +233,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public static int convertPixelsToDp(float px, Context context){
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        int dp = (int) (px / (metrics.densityDpi / 160f));
-        return dp;
-    }
+//    public static int convertPixelsToDp(float px, Context context){
+//        Resources resources = context.getResources();
+//        DisplayMetrics metrics = resources.getDisplayMetrics();
+//        int dp = (int) (px / (metrics.densityDpi / 160f));
+//        return dp;
+//    }
 
     @Override
     protected void onStop() {

@@ -75,7 +75,7 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Toast.makeText(SettingPage.this, "Light Mode Upadate coming soon", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingPage.this, "Light Mode Update Coming Soon!", Toast.LENGTH_SHORT).show();
                     darkMode.setChecked(false);
                 }
             }
@@ -90,7 +90,7 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
         TnC_page.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SettingPage.this, "No terms and condition for you lovely people", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingPage.this, "Terms and Conditions to roll out soon.", Toast.LENGTH_SHORT).show();
             }
         });
         feedBack_page.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +112,13 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
                     @Override
                     public void onRatingChanged(MaterialRatingBar ratingBar, float rating) {
                         rating1[0] = String.valueOf(rating);
+                        Ratings rat = new Ratings();
+                        rat.setRating(Arrays.toString(rating1));
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        final DatabaseReference usersRef = ref.child("Rating").child("Rating Details").child(user.getUid());
+                        usersRef.setValue(rat);
+                        Toast.makeText(SettingPage.this, "Thank you for Feedback", Toast.LENGTH_SHORT).show();
+                        myDialog.dismiss();
                     }
                 });
                 feedback_text.setOnClickListener(new View.OnClickListener() {
@@ -123,18 +130,18 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
                             @Override
                             public void onClick(View v) {
                                 Ratings rating = new Ratings();
-                                rating.setRating(Arrays.toString(rating1));
+//                                rating.setRating(Arrays.toString(rating1));
                                 rating.setComments(feedback.getText().toString());
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 final DatabaseReference usersRef = ref.child("Rating").child("Rating Details").child(user.getUid());
                                 usersRef.setValue(rating);
-                                Toast.makeText(SettingPage.this, "Thank you for Feedback", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SettingPage.this, "Thank you for Comments", Toast.LENGTH_SHORT).show();
                                 myDialog.dismiss();
                             }
                         });
                     }
                 });
-                Toast.makeText(SettingPage.this, "Please Give nice ratings", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingPage.this, "We hope you liked our App!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -176,7 +183,7 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
                     if (dataSnapshot.exists()) {
                         getDataFromFirebase(dataSnapshot);
                     } else {
-                        Toast.makeText(SettingPage.this, "Chutiya kut gaya ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SettingPage.this, "No Data Found", Toast.LENGTH_SHORT).show();
                     }
                 }
 

@@ -64,7 +64,7 @@ public class QR_CodeDisplay extends AppCompatActivity {
         generateUniqueID();
         Intent intent = getIntent();
         flag = intent.getStringExtra("flag");
-        flag = String.valueOf(1);
+        //flag = String.valueOf(1);
         start_timer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -321,11 +321,49 @@ public class QR_CodeDisplay extends AppCompatActivity {
                         }
                         progressDialog.dismiss();
                     }
+                }.start();
+            }
+        } else if (flag.equals("2")) {
+            //Toast.makeText(this, "Inside IF", Toast.LENGTH_SHORT).show();
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                //Toast.makeText(this, "Inside User", Toast.LENGTH_SHORT).show();
+                progressDialog.show(); // Display Progress Dialog
+                progressDialog.setCancelable(false);
+                final DatabaseReference usersRef = ref.child("New Booking").child(user.getUid()).child(String.valueOf(maxId));
+                HashMap<String, Object> result = new HashMap<>();
+                result.put("payment_status", "Success");
+                usersRef.updateChildren(result);
+                final DatabaseReference request = ref.child(checkOutDetails.getPlace_name()).child("Request Generated").child(user.getUid());
+                request.updateChildren(result);
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(2000);
 
-                    ;
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mGigImageView.setVisibility(View.VISIBLE);
+                                        GifDrawable gifDrawable = null;
+                                        try {
+                                            gifDrawable = new GifDrawable(getResources(), R.drawable.completed);
+                                            gifDrawable.setLoopCount(2);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                        mGigImageView.setImageDrawable(gifDrawable);
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }.start();
             }
         }
     }
-
 }
