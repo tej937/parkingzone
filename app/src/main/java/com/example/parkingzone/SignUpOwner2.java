@@ -108,6 +108,7 @@ public class SignUpOwner2 extends AppCompatActivity {
                         newOwner.setStiming(stime.getText().toString().trim());
                         newOwner.setSlots(slot.getSelectedItem().toString().trim());
                         newOwner.setLayout1(complete_layout);
+                        newOwner.setParking_Status("Open");
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         if (user != null) {
                             final DatabaseReference usersRef = ref.child("Owner").child(user.getUid()).child("Parking Details");

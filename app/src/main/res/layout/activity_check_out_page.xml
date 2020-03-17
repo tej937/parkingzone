@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/car_name"
             android:padding="15dp"
-            android:text="Honda Civic"
+            android:text="@string/Null"
             android:textColor="@color/White"
             android:textSize="20sp" />
 
@@ -126,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:text="MH 00 AA 1928"
+            android:text="@string/Null"
             android:textColor="@color/White"
             android:textSize="20sp" />
         <TextView
@@ -134,7 +134,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/parking_spot"
             android:padding="15dp"
-            android:text="A13"
+            android:text="@string/Null"
             android:textColor="@color/White"
             android:textSize="20sp" />
         <TextView
@@ -143,14 +143,14 @@
             android:id="@+id/start_time"
             android:textColor="@color/White"
             android:padding="15dp"
-            android:text="10:20"
+            android:text="@string/Null"
             android:textSize="20sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/end_time"
             android:padding="15dp"
-            android:text="13:20"
+            android:text="@string/Null"
             android:textColor="@color/White"
             android:textSize="20sp" />
         <TextView
@@ -159,7 +159,7 @@
             android:id="@+id/price"
             android:padding="15dp"
             android:textColor="@color/White"
-            android:text="Rs. 130"
+            android:text="@string/Null"
             android:textSize="20sp" />
 
     </LinearLayout>

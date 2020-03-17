@@ -8,13 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,12 +40,11 @@ public class QR_CodeDisplay extends AppCompatActivity {
     TextView booking_id, start_time, end_time, parking_spot, address, place_name;
     CheckOutDetails checkOutDetails;
     NewCar newCar;
-    String plate_no, user_name, payment_status, car_name;
     Bitmap bitmap;
     ImageView qrCode;
     ProgressDialog progressDialog;
     GifImageView mGigImageView;
-    CardView ticket;
+    RelativeLayout ticket;
     Button start_timer;
 
     int i = 0;
@@ -58,21 +57,21 @@ public class QR_CodeDisplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_q_r__code_display);
+        Intent intent = getIntent();
+        flag = intent.getStringExtra("flag");
         initialise();
         retrieveData();
         retrieveCarData();
         generateUniqueID();
-        Intent intent = getIntent();
-        flag = intent.getStringExtra("flag");
         //flag = String.valueOf(1);
         start_timer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (i == 0) {
-                    Toast.makeText(QR_CodeDisplay.this, "Request you to start timer only after\n " +
+                    Toast.makeText(QR_CodeDisplay.this, "Request you to start timer only after\n" +
                             "QR code gets scanned" +
                             "\nIf scanning is done then" +
-                            "Tap again to start timer", Toast.LENGTH_SHORT).show();
+                            "Tap again to start timer", Toast.LENGTH_LONG).show();
                     i++;
                 } else if (i == 1) {
                     startActivity(new Intent(QR_CodeDisplay.this, ParkingTimer.class));
@@ -101,9 +100,15 @@ public class QR_CodeDisplay extends AppCompatActivity {
     }
 
     private void getBitMapImage() throws WriterException {
-        String value = newCar.getPlate() + "\n" + newCar.getName() + "\n" + newCar.getCarType();
-        bitmap = TextToImageEncode(value);
-        qrCode.setImageBitmap(bitmap);
+        if (flag.equals("2")) {
+            String value = newCar.getPlate() + "\n" + newCar.getName() + "\n" + newCar.getCarType() + "\n" + "Payment Status: Not Paid ";
+            bitmap = TextToImageEncode(value);
+            qrCode.setImageBitmap(bitmap);
+        } else {
+            String value = newCar.getPlate() + "\n" + newCar.getName() + "\n" + newCar.getCarType() + "\n" + "Payment Status: Paid Online ";
+            bitmap = TextToImageEncode(value);
+            qrCode.setImageBitmap(bitmap);
+        }
     }
 
     @Override
@@ -200,13 +205,11 @@ public class QR_CodeDisplay extends AppCompatActivity {
         checkOutDetails.setEnd_time((String) dataSnapshot.child("end_time").getValue());
         checkOutDetails.setPayment_status((String) dataSnapshot.child("payment_status").getValue());
         checkOutDetails.setPlace_name((String) dataSnapshot.child("place_name").getValue());
-        payment_status = checkOutDetails.getPayment_status();
         start_time.setText(checkOutDetails.getStart_time());
         end_time.setText(checkOutDetails.getEnd_time());
         parking_spot.setText(checkOutDetails.getParking_slot());
         address.setText(checkOutDetails.getAddress());
         place_name.setText("Parking name: " + checkOutDetails.getPlace_name());
-
         checkPaymentStatus();
 
     }
@@ -215,9 +218,6 @@ public class QR_CodeDisplay extends AppCompatActivity {
         newCar.setCarType((String) dataSnapshot.child("carType").getValue());
         newCar.setPlate((String) dataSnapshot.child("plate").getValue());
         newCar.setName((String) dataSnapshot.child("name").getValue());
-        car_name = newCar.getName();
-        plate_no = newCar.getPlate();
-        user_name = newCar.getName();
         try {
             getBitMapImage();
         } catch (WriterException e) {
@@ -286,7 +286,7 @@ public class QR_CodeDisplay extends AppCompatActivity {
                                         GifDrawable gifDrawable = null;
                                         try {
                                             gifDrawable = new GifDrawable(getResources(), R.drawable.completed);
-                                            gifDrawable.setLoopCount(2);
+                                            gifDrawable.setLoopCount(1);
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }
@@ -310,8 +310,6 @@ public class QR_CodeDisplay extends AppCompatActivity {
                                                     e.printStackTrace();
                                                 }
                                             }
-
-                                            ;
                                         }.start();
                                     }
                                 });
@@ -324,12 +322,8 @@ public class QR_CodeDisplay extends AppCompatActivity {
                 }.start();
             }
         } else if (flag.equals("2")) {
-            //Toast.makeText(this, "Inside IF", Toast.LENGTH_SHORT).show();
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) {
-                //Toast.makeText(this, "Inside User", Toast.LENGTH_SHORT).show();
-                progressDialog.show(); // Display Progress Dialog
-                progressDialog.setCancelable(false);
                 final DatabaseReference usersRef = ref.child("New Booking").child(user.getUid()).child(String.valueOf(maxId));
                 HashMap<String, Object> result = new HashMap<>();
                 result.put("payment_status", "Success");
@@ -342,7 +336,6 @@ public class QR_CodeDisplay extends AppCompatActivity {
                         try {
                             synchronized (this) {
                                 wait(2000);
-
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -350,11 +343,31 @@ public class QR_CodeDisplay extends AppCompatActivity {
                                         GifDrawable gifDrawable = null;
                                         try {
                                             gifDrawable = new GifDrawable(getResources(), R.drawable.completed);
-                                            gifDrawable.setLoopCount(2);
+                                            gifDrawable.setLoopCount(1);
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }
                                         mGigImageView.setImageDrawable(gifDrawable);
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    synchronized (this) {
+                                                        wait(4000);
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                mGigImageView.setVisibility(View.GONE);
+                                                                ticket.setVisibility(View.VISIBLE);
+                                                                start_timer.setVisibility(View.VISIBLE);
+                                                            }
+                                                        });
+                                                    }
+                                                } catch (InterruptedException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }.start();
                                     }
                                 });
                             }

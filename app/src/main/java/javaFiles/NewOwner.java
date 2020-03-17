@@ -8,6 +8,15 @@ public class NewOwner {
     String etiming;
     String slots;
     String layout1;
+    String parking_Status;
+
+    public String getParking_Status() {
+        return parking_Status;
+    }
+
+    public void setParking_Status(String parking_Status) {
+        this.parking_Status = parking_Status;
+    }
 
     public NewOwner(String parking_name, String area, String address, String stiming, String etiming, String slots, String layout1) {
         this.parking_name = parking_name;

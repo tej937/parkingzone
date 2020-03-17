@@ -158,7 +158,7 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
             usersRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists() & dataSnapshot.getChildrenCount() == 7) {
+                    if (dataSnapshot.exists() & dataSnapshot.getChildrenCount() == 8) {
                         //Toast.makeText(OwnerHomePage.this, "All required data uploaded", Toast.LENGTH_SHORT).show();
                         getDataFromFirebase(dataSnapshot);
                     } else {
@@ -356,10 +356,10 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if (result.getContents() == null) {
-                Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Invalid QR\nResult Not Found", Toast.LENGTH_SHORT).show();
             } else {
                 qr_result = result.getContents();
-                Toast.makeText(this, "" + result.getContents(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "" + result.getContents(), Toast.LENGTH_LONG).show();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

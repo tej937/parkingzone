@@ -52,8 +52,6 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
-    int flag = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,12 +92,21 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
         status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
                 if (isChecked) {
-                    closed.setText("Opened");
-                    flag = 1;
-                    checkActiveStatus();
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user != null) {
+                        closed.setText("Open");
+                        final DatabaseReference usersRef = ref.child("Owner").child(user.getUid()).child("Parking Details").child("parking_Status");
+                        usersRef.setValue("Open");
+                    }
                 } else {
-                    closed.setText("Closed");
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user != null) {
+                        closed.setText("Close");
+                        final DatabaseReference usersRef = ref.child("Owner").child(user.getUid()).child("Parking Details").child("parking_Status");
+                        usersRef.setValue("Close");
+                    }
                 }
             }
         });
@@ -141,19 +148,10 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
         tnc = findViewById(R.id.tnc);
         button = findViewById(R.id.submit);
         admin = findViewById(R.id.admin_name_edit);
-
-
         newUser = new NewUser();
         newOwner = new NewOwner();
     }
 
-    private void checkActiveStatus() {
-        if (flag == 1) {
-            startActivity(new Intent(SettingOwnerPage.this, OwnerHomePage.class));
-            finish();
-            Toast.makeText(this, "Parking Opened", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     private void retrieveCarData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -185,7 +183,7 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
                     if (dataSnapshot.exists()) {
                         getDataFromFirebase(dataSnapshot);
                     } else {
-                        Toast.makeText(SettingOwnerPage.this, "Chutiya kut gaya ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SettingOwnerPage.this, "No database Found ", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -203,7 +201,14 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
     private void getCarDataFromFirebase(DataSnapshot dataSnapshot) {
         newOwner.setParking_name((String) dataSnapshot.child("parking_name").getValue());
         newOwner.setSlots((String) dataSnapshot.child("slots").getValue());
+        newOwner.setParking_Status((String) dataSnapshot.child("parking_Status").getValue());
         username.setText(newOwner.getParking_name());
+        closed.setText(newOwner.getParking_Status());
+        if (closed.getText().toString().equals("Open"))
+            status.setChecked(true);
+        else
+            status.setChecked(false);
+
         elegantNumberButton.setNumber(newOwner.getSlots());
     }
     @Override

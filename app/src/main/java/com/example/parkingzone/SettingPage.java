@@ -172,7 +172,6 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.Black)));
         actionBar.setTitle("Setting");
     }
-
     private void retrieveData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -194,7 +193,6 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
             });
         }
     }
-
     private void retrieveCarData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -215,17 +213,14 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
             });
         }
     }
-
     private void getCarDataFromFirebase(DataSnapshot dataSnapshot) {
         newCar.setName((String) dataSnapshot.child("name").getValue());
         username.setText(newCar.getName());
     }
-
     private void getDataFromFirebase(DataSnapshot dataSnapshot) {
         newUser.setPhone((String) dataSnapshot.child("phone").getValue());
         phone_number.setText(newUser.getPhone());
     }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();

@@ -199,7 +199,6 @@ public class SignUpActivity2 extends AppCompatActivity {
             return true;
         }
     }
-
     private boolean validatePlate(String plate_no) {
         String expression = "^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$";
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
@@ -216,7 +215,6 @@ public class SignUpActivity2 extends AppCompatActivity {
             return true;
         }
     }
-
     private boolean validateCarName(String car_Name) {
         if (car_Name.isEmpty()) {
             carName.setError("This Field can't be Empty");
