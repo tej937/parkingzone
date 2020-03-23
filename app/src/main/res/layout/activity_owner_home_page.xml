@@ -216,22 +216,46 @@
                     android:textAllCaps="false"
                     android:textColor="@color/White"
                     android:textSize="17sp" />
+            </RelativeLayout>
+            <!--            Status Check Layout-->
+            <RelativeLayout
+                android:id="@+id/status_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
-                <Button
-                    android:visibility="gone"
-                    android:id="@+id/delete_spot"
+                <TextView
+                    android:id="@+id/t"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/book_spot"
-                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="150dp"
+                    android:text="Your parking is Closed, do you want to Open?"
+                    android:textAlignment="center"
+                    android:textColor="#ff3366"
+                    android:textSize="25sp" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/status_switch"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/t"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/roundbutton"
-                    android:backgroundTint="#FF3366"
-                    android:padding="15dp"
-                    android:text="Delete a Spot"
-                    android:textAllCaps="false"
-                    android:textColor="@color/White"
+                    android:layout_centerHorizontal="true"
+                    app:trackTint="#ff3366" />
+
+                <TextView
+                    android:id="@+id/closed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/t"
+                    android:layout_marginTop="15dp"
+                    android:layout_toStartOf="@id/status_switch"
+                    android:gravity="center"
+                    android:text="Closed"
+                    android:textColor="#ff3366"
                     android:textSize="17sp" />
+
+
             </RelativeLayout>
         </RelativeLayout>
 

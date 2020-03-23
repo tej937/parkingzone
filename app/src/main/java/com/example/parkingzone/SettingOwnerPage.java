@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,9 +44,9 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
     NewUser newUser;
     NewOwner newOwner;
     ElegantNumberButton elegantNumberButton;
-    TextView username, phone_number, closed, admin_name, tnc_text;
+    TextView username, phone_number, closed, admin_name;
     EditText admin;
-    ImageView tnc;
+    RelativeLayout tnc_Layout;
     SwitchCompat status, dark_Mode;
     Button button;
 
@@ -65,8 +65,7 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(View v) {
                 admin_name.setVisibility(View.GONE);
-                tnc_text.setVisibility(View.GONE);
-                tnc.setVisibility(View.GONE);
+                tnc_Layout.setVisibility(View.GONE);
                 admin.setVisibility(View.VISIBLE);
                 button.setVisibility(View.VISIBLE);
             }
@@ -79,8 +78,7 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
                     admin.setError("Please enter the admin name");
                 } else {
                     admin_name.setVisibility(View.VISIBLE);
-                    tnc_text.setVisibility(View.VISIBLE);
-                    tnc.setVisibility(View.VISIBLE);
+                    tnc_Layout.setVisibility(View.VISIBLE);
                     admin_name.setText(admin.getText().toString());
                     admin.setVisibility(View.GONE);
                     button.setVisibility(View.GONE);
@@ -92,7 +90,6 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
         status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
                 if (isChecked) {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     if (user != null) {
@@ -114,9 +111,15 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Toast.makeText(SettingOwnerPage.this, "Light Mode Upadate coming soon", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingOwnerPage.this, "Light Mode Update Coming Soon!", Toast.LENGTH_SHORT).show();
                     dark_Mode.setChecked(false);
                 }
+            }
+        });
+        tnc_Layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(SettingOwnerPage.this, "Terms and Conditions to roll out soon.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -144,8 +147,7 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
         dark_Mode = findViewById(R.id.dark);
         elegantNumberButton = findViewById(R.id.slots);
         admin_name = findViewById(R.id.admin_name);
-        tnc_text = findViewById(R.id.question_text);
-        tnc = findViewById(R.id.tnc);
+        tnc_Layout = findViewById(R.id.tnc_layout);
         button = findViewById(R.id.submit);
         admin = findViewById(R.id.admin_name_edit);
         newUser = new NewUser();

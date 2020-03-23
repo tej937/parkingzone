@@ -3,6 +3,7 @@ package com.example.parkingzone;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -54,7 +55,7 @@ public class SignUpOwner2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up__owner2);
         initialise();
-        getOwnerNo();
+        //getOwnerNo();
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
@@ -109,6 +110,8 @@ public class SignUpOwner2 extends AppCompatActivity {
                         newOwner.setSlots(slot.getSelectedItem().toString().trim());
                         newOwner.setLayout1(complete_layout);
                         newOwner.setParking_Status("Open");
+                        getOwnerNo();
+                        Log.d("Riyaa", "A" + newOwner);
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         if (user != null) {
                             final DatabaseReference usersRef = ref.child("Owner").child(user.getUid()).child("Parking Details");
@@ -128,6 +131,7 @@ public class SignUpOwner2 extends AppCompatActivity {
     }
 
     private void saveDataToRespectiveNumber(NewOwner newOwner) {
+        Log.d("Shraddha", "A" + noOwner);
         final DatabaseReference owners = ref.child(newOwner.getArea()).child("OwnerInfo").child(String.valueOf(noOwner + 1));
         owners.setValue(newOwner);
     }
