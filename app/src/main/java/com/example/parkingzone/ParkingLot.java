@@ -548,4 +548,9 @@ public class ParkingLot extends AppCompatActivity implements View.OnClickListene
             }
         }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ParkingLot.this, HomePage.class));
+        finish();
+    }
 }

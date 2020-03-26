@@ -119,7 +119,6 @@ public class FAQ_Page extends AppCompatActivity {
 
     }
 
-
     private void expand(ImageView expand, TextView ans, ImageView collapse) {
         expand.setVisibility(View.GONE);//image
         collapse.setVisibility(View.VISIBLE);//image
@@ -131,5 +130,11 @@ public class FAQ_Page extends AppCompatActivity {
         collapse.setVisibility(View.GONE);
         ans.setVisibility(View.GONE);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(FAQ_Page.this, SettingPage.class));
+        finish();
     }
 }

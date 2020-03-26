@@ -125,6 +125,13 @@ public class SettingOwnerPage extends AppCompatActivity implements NavigationVie
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Returning to Home Page", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(SettingOwnerPage.this, OwnerHomePage.class));
+        finish();
+    }
+
     private void initiate() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.Black)));

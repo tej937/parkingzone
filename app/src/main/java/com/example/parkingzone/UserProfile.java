@@ -363,6 +363,11 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(UserProfile.this, SettingPage.class));
+        finish();
     }
 }

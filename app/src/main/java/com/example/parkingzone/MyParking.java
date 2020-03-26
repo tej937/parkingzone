@@ -164,4 +164,10 @@ public class MyParking extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Returning to Home Page", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(MyParking.this, HomePage.class));
+        finish();
+    }
 }

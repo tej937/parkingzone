@@ -45,7 +45,7 @@ public class PaymentMethod extends AppCompatActivity implements NavigationView.O
     NavigationView navigationView;
     ActionBarDrawerToggle mToggle;
     public static final int PAYPAL_REQUEST_CODE = 7171;
-
+    TextView temp;
     Dialog myDialog;
     View headerView;
     private static PayPalConfiguration configuration = new PayPalConfiguration()
@@ -143,6 +143,7 @@ public class PaymentMethod extends AppCompatActivity implements NavigationView.O
         checkOutDetails = new CheckOutDetails();
         paypalButton = findViewById(R.id.method1);
         cod = findViewById(R.id.method4);
+        temp = findViewById(R.id.text);
 //        mGooglePayButton = findViewById(R.id.googlepay_button);
 //        mGooglePayStatusText = findViewById(R.id.googlepay_status);
 
@@ -171,7 +172,6 @@ public class PaymentMethod extends AppCompatActivity implements NavigationView.O
                                     Toast.makeText(PaymentMethod.this, "No Booking Found", Toast.LENGTH_SHORT).show();
                                 }
                             }
-
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
                                 Toast.makeText(PaymentMethod.this, "U have failed this City " + databaseError, Toast.LENGTH_SHORT).show();
@@ -189,6 +189,8 @@ public class PaymentMethod extends AppCompatActivity implements NavigationView.O
 
     private void getDataFromFirebase(DataSnapshot dataSnapshot) {
         checkOutDetails.setTotal_amount((String) dataSnapshot.child("total_amount").getValue());
+        checkOutDetails.setPlace_name((String) dataSnapshot.child("place_name").getValue());
+        temp.setText(checkOutDetails.getPlace_name());
         total_amount = checkOutDetails.getTotal_amount();
         if (!alreadyExecuted) {
             processPayment();
@@ -417,6 +419,38 @@ public class PaymentMethod extends AppCompatActivity implements NavigationView.O
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
 
+
+    @Override
+    public void onBackPressed() {
+        Button yes, no;
+        myDialog.setContentView(R.layout.cancelrequest_layout);
+        yes = (Button) myDialog.findViewById(R.id.yess);
+        no = (Button) myDialog.findViewById(R.id.cancel);
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    final DatabaseReference deleteBooking = ref.child("New Booking").child(user.getUid()).child(String.valueOf(maxId));
+                    deleteBooking.removeValue();
+                    final DatabaseReference deleteRequest = ref.child(temp.getText().toString()).child("Request Generated").child(user.getUid());
+                    deleteRequest.removeValue();
+                    myDialog.dismiss();
+                    startActivity(new Intent(PaymentMethod.this, HomePage.class));
+                    finish();
+                    Toast.makeText(PaymentMethod.this, "Request Cancelled", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

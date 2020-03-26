@@ -80,7 +80,6 @@ public class QR_CodeDisplay extends AppCompatActivity {
             }
         });
     }
-
     private void generateUniqueID() {
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789"
@@ -98,7 +97,6 @@ public class QR_CodeDisplay extends AppCompatActivity {
         String text = "Booking ID: ".concat(String.valueOf(uniqueString));
         booking_id.setText(text);
     }
-
     private void getBitMapImage() throws WriterException {
         if (flag.equals("2")) {
             String value = newCar.getPlate() + "\n" + newCar.getName() + "\n" + newCar.getCarType() + "\n" + "Payment Status: Not Paid ";
@@ -110,12 +108,9 @@ public class QR_CodeDisplay extends AppCompatActivity {
             qrCode.setImageBitmap(bitmap);
         }
     }
-
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(QR_CodeDisplay.this, HomePage.class));
-        finish();
+
     }
 
     private void initialise() {
@@ -141,7 +136,6 @@ public class QR_CodeDisplay extends AppCompatActivity {
         start_timer = findViewById(R.id.start_timer);
 
     }
-
     private void retrieveCarData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -162,7 +156,6 @@ public class QR_CodeDisplay extends AppCompatActivity {
             });
         }
     }
-
     private void retrieveData() {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -197,7 +190,6 @@ public class QR_CodeDisplay extends AppCompatActivity {
             });
         }
     }
-
     private void getDataFromFirebase(DataSnapshot dataSnapshot) {
         checkOutDetails.setAddress((String) dataSnapshot.child("address").getValue());
         checkOutDetails.setParking_slot((String) dataSnapshot.child("parking_slot").getValue());
@@ -213,7 +205,6 @@ public class QR_CodeDisplay extends AppCompatActivity {
         checkPaymentStatus();
 
     }
-
     private void getCarDataFromFirebase(DataSnapshot dataSnapshot) {
         newCar.setCarType((String) dataSnapshot.child("carType").getValue());
         newCar.setPlate((String) dataSnapshot.child("plate").getValue());
@@ -224,7 +215,6 @@ public class QR_CodeDisplay extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
     Bitmap TextToImageEncode(String Value) throws WriterException {
         BitMatrix bitMatrix;
         try {
@@ -258,7 +248,6 @@ public class QR_CodeDisplay extends AppCompatActivity {
         bitmap.setPixels(pixels, 0, 150, 0, 0, bitMatrixWidth, bitMatrixHeight);
         return bitmap;
     }
-
     public void checkPaymentStatus() {
         if (flag.equals("1")) {
             //Toast.makeText(this, "Inside IF", Toast.LENGTH_SHORT).show();

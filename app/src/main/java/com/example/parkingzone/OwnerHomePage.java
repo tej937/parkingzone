@@ -1,5 +1,6 @@
 package com.example.parkingzone;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -63,7 +64,7 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
     String selectedIds = "";
     private long noOwner;
     int flag = 1;
-
+    private long backPressed;
     // int[] arr;
     //int flag = 0;
 
@@ -265,19 +266,20 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
         confirm = myDialog.findViewById(R.id.yess);
         text = myDialog.findViewById(R.id.question_text);
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
-        text.setText("You have a parking request at " + checkOutDetails.getSeatNo() + ". Please confirm request if available");
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SeatsUpdation(checkOutDetails.getSeatNo());
-                saveNewSeat();
-
-                DatabaseReference deleteRequest = ref.child(textView1.getText().toString());
-                deleteRequest.removeValue();
-                myDialog.dismiss();
-            }
-        });
+        if (!((Activity) this).isFinishing()) {
+            myDialog.show();
+            text.setText("You have a parking request at " + checkOutDetails.getSeatNo() + ". Please confirm request if available");
+            confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SeatsUpdation(checkOutDetails.getSeatNo());
+                    saveNewSeat();
+                    DatabaseReference deleteRequest = ref.child(textView1.getText().toString());
+                    deleteRequest.removeValue();
+                    myDialog.dismiss();
+                }
+            });
+        }
     }
 
     private void getOwnerNo() {
@@ -553,4 +555,14 @@ public class OwnerHomePage extends AppCompatActivity implements NavigationView.O
         complete_layout = String.valueOf(temp1);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (backPressed + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            return;
+        } else {
+            Toast.makeText(this, "Please press back again to exit", Toast.LENGTH_SHORT).show();
+        }
+        backPressed = System.currentTimeMillis();
+    }
 }

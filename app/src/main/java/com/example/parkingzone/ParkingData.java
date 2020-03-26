@@ -197,5 +197,12 @@ public class ParkingData extends AppCompatActivity implements NavigationView.OnN
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Returning to Home Page", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(ParkingData.this, OwnerHomePage.class));
+        finish();
+    }
 }
 

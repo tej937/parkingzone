@@ -1,6 +1,8 @@
 package com.example.parkingzone;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +27,9 @@ import javaFiles.NewCar;
 public class CheckOutPage extends AppCompatActivity {
     TextView location, carName, start_time, end_time, parking_slot, total_amount, plate_no, details;
     NewCar newCar;
+    TextView temporary;
     Button payment_page;
+    Dialog myDialog;
     CheckOutDetails checkOutDetails;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
@@ -59,6 +63,8 @@ public class CheckOutPage extends AppCompatActivity {
         plate_no = findViewById(R.id.plate_no);
         details = findViewById(R.id.details);
         payment_page = findViewById(R.id.proceed);
+        myDialog = new Dialog(this);
+        temporary = findViewById(R.id.temp);
 
         checkOutDetails = new CheckOutDetails();
         newCar = new NewCar();
@@ -130,6 +136,7 @@ public class CheckOutPage extends AppCompatActivity {
         checkOutDetails.setPayment_status((String) dataSnapshot.child("payment_status").getValue());
         checkOutDetails.setCurrent_date((String) dataSnapshot.child("current_date").getValue());
         checkOutDetails.setLocation((String) dataSnapshot.child("location").getValue());
+        checkOutDetails.setPlace_name((String) dataSnapshot.child("place_name").getValue());
 
         String start_date_time = checkOutDetails.getCurrent_date() + "," + checkOutDetails.getStart_time();
         String end_date_time = checkOutDetails.getCurrent_date() + "," + checkOutDetails.getEnd_time();
@@ -138,12 +145,48 @@ public class CheckOutPage extends AppCompatActivity {
         parking_slot.setText(checkOutDetails.getParking_slot());
         total_amount.setText(checkOutDetails.getTotal_amount());
         location.setText(checkOutDetails.getLocation());
+        temporary.setText(checkOutDetails.getPlace_name());
+
     }
     private void getCarDataFromFirebase(DataSnapshot dataSnapshot) {
         newCar.setCarType((String) dataSnapshot.child("carType").getValue());
         newCar.setPlate((String) dataSnapshot.child("plate").getValue());
         carName.setText(newCar.getCarType());
         plate_no.setText(newCar.getPlate());
+    }
+
+    @Override
+    public void onBackPressed() {
+        Button yes, no;
+        myDialog.setContentView(R.layout.cancelrequest_layout);
+        yes = (Button) myDialog.findViewById(R.id.yess);
+        no = (Button) myDialog.findViewById(R.id.cancel);
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    final DatabaseReference deleteusersReq = ref.child("New Booking").child(user.getUid()).child(String.valueOf(maxId));
+                    deleteusersReq.removeValue();
+                    final DatabaseReference request = ref.child(temporary.getText().toString()).child("Request Generated").child(user.getUid());
+                    request.removeValue();
+                    myDialog.dismiss();
+                    startActivity(new Intent(CheckOutPage.this, HomePage.class));
+                    finish();
+                    Toast.makeText(CheckOutPage.this, "Request Cancelled", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
     }
 
 }

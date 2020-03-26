@@ -145,6 +145,14 @@ public class SettingPage extends AppCompatActivity implements NavigationView.OnN
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Returning to Home Page", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(SettingPage.this, HomePage.class));
+        finish();
+    }
+
     private void initialise() {
         mDraw = (DrawerLayout)findViewById(R.id.drawer);
         mToggle = new ActionBarDrawerToggle(this, mDraw,R.string.open,R.string.close);

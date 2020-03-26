@@ -54,6 +54,7 @@ public class SignUpActivity2 extends AppCompatActivity {
     Uri filepath;
     NewCar newCar;
     CheckOutDetails checkOutDetails;
+    private long backPressed;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
     private long noUser = 0;
@@ -70,11 +71,17 @@ public class SignUpActivity2 extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignUpActivity2.this,SignUpActivity.class));
-                finish();
+                if (backPressed + 2000 > System.currentTimeMillis()) {
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(SignUpActivity2.this, Selection.class));
+                    finish();
+                    return;
+                } else {
+                    Toast.makeText(SignUpActivity2.this, "Please press back again to exit", Toast.LENGTH_SHORT).show();
+                }
+                backPressed = System.currentTimeMillis();
             }
         });
-
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +128,19 @@ public class SignUpActivity2 extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backPressed + 2000 > System.currentTimeMillis()) {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(SignUpActivity2.this, Selection.class));
+            finish();
+            return;
+        } else {
+            Toast.makeText(this, "Please press back again to exit", Toast.LENGTH_SHORT).show();
+        }
+        backPressed = System.currentTimeMillis();
     }
 
 //    private void saveDataToRespectiveNumber(NewCar newCar) {

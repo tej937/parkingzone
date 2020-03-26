@@ -16,6 +16,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -51,7 +52,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     RelativeLayout news1, news2, news3, news4;
     TextView text3, text4;
     Spinner userArea;
-    int flag;
     RecyclerView recyclerView;
     TextView textView;
     ArrayList<NewOwner> list;
@@ -59,7 +59,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     DatabaseReference ref = database.getReferenceFromUrl("https://parking-zone-8ce19.firebaseio.com");
     Owner_Adapters owner_adapters;
     ProgressDialog progressDialog;
-
+    private long backPressed;
 
 
     @Override
@@ -301,6 +301,17 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backPressed + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            return;
+        } else {
+            Toast.makeText(this, "Please press back again to exit", Toast.LENGTH_SHORT).show();
+        }
+        backPressed = System.currentTimeMillis();
     }
 }
 

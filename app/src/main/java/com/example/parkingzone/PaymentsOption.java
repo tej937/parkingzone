@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -110,4 +111,10 @@ public class PaymentsOption extends AppCompatActivity implements NavigationView.
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Returning to Home Page", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(PaymentsOption.this, HomePage.class));
+        finish();
+    }
 }

@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     Button Login,forgot_Button;
     ImageView back;
     RelativeLayout forgotLayout, loginLayout;
-
+    private long backPressed;
     TextView nonexisting,forgot,forgot_Text,goback;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
@@ -244,5 +244,16 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         mAuth.removeAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backPressed + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            return;
+        } else {
+            Toast.makeText(this, "Please back again to exit", Toast.LENGTH_SHORT).show();
+        }
+        backPressed = System.currentTimeMillis();
     }
 }
