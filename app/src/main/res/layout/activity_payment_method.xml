@@ -165,7 +165,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@id/one4"
                     android:padding="20dp"
-                    android:text="Cash On Delivery"
+                    android:text="Cash At Counter"
                     android:textColor="@color/White"
                     android:textSize="20sp" />
 
