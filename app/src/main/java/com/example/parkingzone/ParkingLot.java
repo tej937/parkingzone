@@ -252,6 +252,8 @@ public class ParkingLot extends AppCompatActivity implements View.OnClickListene
 
                 if(start_time.getText().equals("00 : 00") | end_time.getText().equals("00 : 00"))
                     Toast.makeText(ParkingLot.this, "Please specify the time", Toast.LENGTH_SHORT).show();
+                else if (difference_time.getText().equals("Please Set time difference within 20 HOURS") | difference_time.getText().equals("Please set time difference more than 30 min"))
+                    Toast.makeText(ParkingLot.this, "You Have An error please complete that", Toast.LENGTH_SHORT).show();
                 else{
                     //Toast.makeText(ParkingLot.this, "Success", Toast.LENGTH_SHORT).show();
                     checkOutDetails.setStart_time(start_time.getText().toString());
